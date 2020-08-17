@@ -1,18 +1,10 @@
 import React from 'react';
-import { Navbar, NavbarBrand } from 'reactstrap';
-
+import Main from './components/MainComponent';
 function App() {
   return (
-    <div className="App">
-      <Navbar dark color="primary">
-        <div className="container">
-          <NavbarBrand href="/">
-            Product Sample Approval Workflow
-          </NavbarBrand>
-        </div>
-      </Navbar>
+    <div>
+      <Main/>
     </div>
   );
 }
-
 export default App;
