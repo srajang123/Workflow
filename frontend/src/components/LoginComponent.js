@@ -4,16 +4,18 @@ class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            username : "",
-            password : ""
+            username: "",
+            password: ""
         }
     }
 
     render() {
         return (
-            <div className = "container">
-                <div className= "row">
-                    <h1>Login Page</h1>
+            <div>
+                <div className="container">
+                    <div className="row">
+                        <h1>Login Page</h1>
+                    </div>
                 </div>
             </div>
         );

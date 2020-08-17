@@ -1,10 +1,11 @@
 import React from 'react';
 
 function Footer() {
-    return (
-      <div>
-        <h1>Footer</h1>
-      </div>
-    );
+  return (
+    <div>
+      <p style={{ float: "right", marginRight: "15px" }}>TCS Internship Project</p>
+    </div>
+  );
 }
+
 export default Footer;
