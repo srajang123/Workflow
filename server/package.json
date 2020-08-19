@@ -1,25 +1,19 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "Product Sample Approval Workflow",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/srajang123/Workflow.git"
-  },
-  "author": "Mann, Srajan",
+  "author": "Srajan Gupta,Mann Mehta",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/srajang123/Workflow/issues"
-  },
-  "homepage": "https://github.com/srajang123/Workflow#readme",
   "dependencies": {
-    "body-parser": "^1.19.0",
+    "bcryptjs": "^2.4.3",
+    "csurf": "^1.11.0",
+    "dot-env": "0.0.1",
     "express": "^4.17.1",
-    "morgan": "^1.10.0"
+    "nodemailer": "^6.4.11",
+    "nodemon": "^2.0.4"
   }
 }
