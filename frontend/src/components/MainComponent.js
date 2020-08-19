@@ -1,5 +1,6 @@
-import React, { Fragment } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import React, { Fragment, Component} from 'react';
+import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import Header from './HeaderComponent';
 import Home from './HomeComponent';
@@ -10,22 +11,37 @@ import Approver from './ApproverComponent';
 import Admin from './AdminComponent';
 import Error from './ErrorComponent';
 
-function Main() {
-  return (
-    <Fragment>
-      <Header />
-      <Switch>
-        <Route exact path='/' component={Home}></Route>
-        <Route exact path='/home' component={Home}></Route>
-        <Route exact path='/login' component={Login}></Route>
-        <Route exact path='/requester' component={Requester}></Route>
-        <Route exact path='/approver' component={Approver}></Route>
-        <Route exact path='/admin' component={Admin}></Route>
-        <Route exact path='/*' component={Error}></Route>
-      </Switch>
-      <Footer />
-    </Fragment>
-  );
+const mapStateToProps = state => {
+  return {
+    email : state.email,
+    password : state.password
+  }
 }
 
-export default Main;
+class Main extends Component {
+  
+  constructor(props) {
+    super(props);
+  }
+  
+  render() {
+    return (
+      <Fragment>
+        <Header />
+        <Switch>
+          <Route exact path='/' component={Home}></Route>
+          <Route exact path='/home' component={Home}></Route>
+          <Route exact path='/login' component={Login}></Route>
+          <Route exact path='/requester' component={Requester}></Route>
+          <Route exact path='/approver' component={Approver}></Route>
+          <Route exact path='/admin' component={Admin}></Route>
+          <Route exact path='/*' component={Error}></Route>
+          <Redirect to='/home' />
+        </Switch>
+        <Footer />
+      </Fragment>
+    );
+  }
+}
+
+export default withRouter(connect(mapStateToProps)(Main));
