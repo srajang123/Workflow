@@ -19,7 +19,7 @@ function Home() {
             <Collapse isOpen={isOpen} navbar>
               <Nav className="mr-auto" navbar>
                 <NavItem style={{margin : 10}}>
-                <i className="fa fa-sign-in fa-sm" style={{color:"white"}}></i><Link to="/login"> Login</Link>
+                <Link to="/login"><i className="fa fa-sign-in fa-sm"></i> Login</Link>
                 </NavItem>
               </Nav>
               <NavbarText>TCS PROJECT</NavbarText>
