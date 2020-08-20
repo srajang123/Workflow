@@ -2,10 +2,9 @@ import React, { Fragment, Component} from 'react';
 import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import Header from './HeaderComponent';
+
 import Home from './HomeComponent';
 import Login from './LoginComponent';
-import Footer from './FooterComponent';
 import Requester from './RequesterComponent';
 import Approver from './ApproverComponent';
 import Admin from './AdminComponent';
@@ -20,14 +19,13 @@ const mapStateToProps = state => {
 
 class Main extends Component {
   
-  constructor(props) {
-    super(props);
-  }
+  // constructor(props) {
+  //   super(props);
+  // }
   
   render() {
     return (
       <Fragment>
-        <Header />
         <Switch>
           <Route exact path='/' component={Home}></Route>
           <Route exact path='/home' component={Home}></Route>
@@ -38,7 +36,6 @@ class Main extends Component {
           <Route exact path='/*' component={Error}></Route>
           <Redirect to='/home' />
         </Switch>
-        <Footer />
       </Fragment>
     );
   }

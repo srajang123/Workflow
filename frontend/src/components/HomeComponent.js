@@ -1,8 +1,33 @@
-import React, { Fragment } from 'react';
-import { Jumbotron } from 'reactstrap';
+import React, { Fragment, useState } from 'react';
+import { Jumbotron, Nav, Navbar, NavbarText, NavbarBrand, Collapse, 
+  NavbarToggler, NavItem  } from 'reactstrap';
+import {Link} from 'react-router-dom'
 function Home() {
+
+  const [isOpen, setIsOpen] = useState(false);
+  const toggle = () => setIsOpen(!isOpen);
+
   return (
-    <Fragment>
+    <div>
+      <Fragment>
+        <Navbar style={{backgroundColor : "black"}} dark expand="md">
+          <div className="container">
+            <NavbarBrand>
+              Product Sample Approval Workflow
+            </NavbarBrand>
+            <NavbarToggler onClick={toggle} />
+            <Collapse isOpen={isOpen} navbar>
+              <Nav className="mr-auto" navbar>
+                <NavItem style={{margin : 10}}>
+                <i className="fa fa-sign-in fa-sm" style={{color:"white"}}></i><Link to="/login"> Login</Link>
+                </NavItem>
+              </Nav>
+              <NavbarText>TCS PROJECT</NavbarText>
+            </Collapse>
+          </div>
+        </Navbar>
+      </Fragment>
+
       <Jumbotron>
         <div className="container">
           <div className="row row-header">
@@ -23,7 +48,7 @@ function Home() {
           <h1>Home Page</h1>
         </div>
       </div>
-    </Fragment>
+    </div>
   );
 }
 export default Home;
