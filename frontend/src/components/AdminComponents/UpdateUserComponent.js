@@ -1,39 +1,29 @@
-import React, { Component,Fragment } from 'react';
+import React, { Component } from 'react';
 import { Breadcrumb, BreadcrumbItem,
     Button, Row, Col, Label } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { Control, LocalForm, Errors } from 'react-redux-form';
 
-import HeaderComponent from './HeaderComponent';
+import AdminHeader from './AdminHeaderComponent';
 
 // validations
 const required = (val) => val && val.length;
 const minLength = (len) => (val) => (val)  && (val.length >= len);
 const validEmail = (val) => /^[A-Z0-9._%+a-z]+@[A-Z0-9a-z.-]+\.[A-Z]{2,4}$/i.test(val);
 
-class Login extends Component {
-    constructor(props) {
-        super(props);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    handleSubmit(values) {
-        console.log('State : ' + JSON.stringify(values));
-        alert('state' + JSON.stringify(values));
-    }
-
+class UpdateUser extends Component {
     render() {
         return (
-            <Fragment>
-                <HeaderComponent />
+            <div>
+                <AdminHeader />
                 <div className="container">
                     <div className="row">
                         <Breadcrumb>
-                            <BreadcrumbItem><Link to ="/home"><i className="fa fa-home fa-sm"></i> Home</Link></BreadcrumbItem>
-                            <BreadcrumbItem active>Login</BreadcrumbItem>
+                            <BreadcrumbItem><Link to ="/admin"><i className="fa fa-user fa-sm"></i> Admin</Link></BreadcrumbItem>
+                            <BreadcrumbItem active>Update User</BreadcrumbItem>
                         </Breadcrumb>
                         <div className="col-12">
-                            <h3>Login</h3>
+                            <h3>Update User</h3>
                             <hr />
                         </div>
                     </div>
@@ -98,9 +88,9 @@ class Login extends Component {
                         </div>
                     </div>
                 </div>
-            </Fragment>
+            </div>
         );
     }
 }
 
-export default Login;
+export default UpdateUser;
