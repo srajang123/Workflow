@@ -1,32 +1,12 @@
-import React, { Fragment, useState } from 'react';
-import { Jumbotron, Nav, Navbar, NavbarText, NavbarBrand, Collapse, 
-  NavbarToggler, NavItem  } from 'reactstrap';
-import {Link} from 'react-router-dom'
+import React, { Fragment } from 'react';
+import { Jumbotron } from 'reactstrap';
+
+import HeaderComponent from './HeaderComponent';
 
 function Error() {
-  const [isOpen, setIsOpen] = useState(false);
-  const toggle = () => setIsOpen(!isOpen);
-
   return (
-    <div>
-      <Fragment>
-        <Navbar style={{backgroundColor : "black"}} dark expand="md">
-          <div className="container">
-            <NavbarBrand>
-              Product Sample Approval Workflow
-            </NavbarBrand>
-            <NavbarToggler onClick={toggle} />
-            <Collapse isOpen={isOpen} navbar>
-              <Nav className="mr-auto" navbar>
-                <NavItem style={{margin : 5}}>
-                  <Link to="/home">Home</Link>
-                </NavItem>
-              </Nav>
-              <NavbarText>TCS PROJECT</NavbarText>
-            </Collapse>
-          </div>
-        </Navbar>
-      </Fragment>
+    <Fragment>
+      <HeaderComponent />
       <Jumbotron>
         <div className="container">
           <div className="row row-header">
@@ -37,7 +17,7 @@ function Error() {
           </div>
         </div>
       </Jumbotron>
-    </div>
+    </Fragment>
   );
 }
 export default Error;

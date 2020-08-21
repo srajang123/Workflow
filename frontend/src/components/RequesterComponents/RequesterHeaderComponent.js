@@ -1,15 +1,17 @@
 import React, { Component, Fragment } from 'react';
-import { Jumbotron, Nav, Navbar, NavbarBrand, NavbarText,
-  NavbarToggler, Collapse, NavItem} from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Navbar, NavbarBrand, NavbarToggler, Collapse,
+Nav, NavItem, NavbarText} from 'reactstrap';
+import {Link} from 'react-router-dom';
 
-class Admin extends Component {
+class RequesterHeader extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
         isOpen : false
     }
     this.toggle = this.toggle.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   toggle = () => {
@@ -18,9 +20,12 @@ class Admin extends Component {
       });
   }
 
+  handleSubmit(values) {
+      console.log('State : ' + JSON.stringify(values));
+      alert('state' + JSON.stringify(values));
+  }
   render() {
     return (
-      <Fragment>
         <Fragment>
           <Navbar style={{backgroundColor : "black"}} dark expand="md">
               <div className="container">
@@ -32,17 +37,17 @@ class Admin extends Component {
                       <Nav className="mr-auto" navbar>
                           {/* Button will replaced Link later to clear the cookies and redirecting to the main page */}
                           <NavItem style={{margin : 10}}>
-                          <Link to="/"><i className="fa fa-plus-circle fa-sm"></i>  Add</Link>
+                          <Link to="/requester/new"><i className="fa fa-send fa-sm"></i>  Raise Request</Link>
                           </NavItem>
                           <NavItem style={{margin : 10}}>
-                          <Link to="/"><i className="fa fa-edit fa-sm"></i>  Update</Link>
+                          <Link to="/requester/active"><i className="fa fa-bell fa-sm"></i>  Active Requests</Link>
+                          </NavItem>
+                          <NavItem style={{margin : 10}}>
+                          <Link to="/requester/all"><i className="fa fa-history fa-sm"></i>  All Requests</Link>
                           </NavItem>
                           {/* <NavItem style={{margin : 5}}>
                               <Link to="/">Remove</Link>
                           </NavItem> */}
-                          <NavItem style={{margin : 10}}>
-                          <Link to="/"><i className="fa fa-eye fa-sm"></i>  View</Link>
-                          </NavItem>
                           <NavItem style={{margin : 10}}>
                           <Link to="/"><i className="fa fa-sign-out fa-sm"></i>  Logout</Link>
                           </NavItem>
@@ -52,28 +57,8 @@ class Admin extends Component {
               </div>
           </Navbar>
         </Fragment>
-        <Fragment>
-          <Jumbotron>
-            <div className="container">
-              <div className="row row-header">
-                <div className="col-12 col-sm-6">
-                  <h1>Welcome.. Admin</h1>
-                  <p>
-                    Admin can manage users through<br />
-                    view, edit, delete, activate, deactivate rights on users.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </Jumbotron>
-          <div className="container">
-            <div className="row">
-              <h1>Admin Page</h1>
-            </div>
-          </div>
-        </Fragment>
-      </Fragment>
-    );
-  }
+        );
+    }
 }
-export default Admin;
+
+export default RequesterHeader;
