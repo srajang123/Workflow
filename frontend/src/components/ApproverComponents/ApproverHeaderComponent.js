@@ -37,10 +37,10 @@ class ApproverHeader extends Component {
                             <Nav className="mr-auto" navbar>
                                 {/* Button will replaced Link later to clear the cookies and redirecting to the main page */}
                                 <NavItem style={{margin : 10}}>
-                                <Link to="/approver/active"><i className="fa fa-bell fa-sm"></i>  Active Requests</Link>
+                                <Link to="/approver/active"><i className="fa fa-bell fa-sm"></i>  Active</Link>
                                 </NavItem>
                                 <NavItem style={{margin : 10}}>
-                                <Link to="/approver/all"><i className="fa fa-history fa-sm"></i>  All Requests</Link>
+                                <Link to="/approver/all"><i className="fa fa-history fa-sm"></i>  All</Link>
                                 </NavItem>
                                 {/* <NavItem style={{margin : 5}}>
                                     <Link to="/">Remove</Link>

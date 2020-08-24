@@ -1,6 +1,5 @@
 import React, { Fragment, Component} from 'react';
-import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 import Home from './HomeComponent';
 import Login from './LoginComponent';
@@ -22,13 +21,6 @@ import RequesterAllRequest from './RequesterComponents/RequesterAllComponent';
 
 // import {ViewUser} from './ViewUserComponent';
 // import {}
-
-const mapStateToProps = state => {
-  return {
-    email : state.email,
-    password : state.password
-  }
-}
 
 class Main extends Component {
   
@@ -69,4 +61,4 @@ class Main extends Component {
   }
 }
 
-export default withRouter(connect(mapStateToProps)(Main));
+export default Main;

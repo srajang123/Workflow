@@ -13,7 +13,7 @@ class RequesterActiveRequest extends Component {
                 <div className="container">
                     <div className="row">
                         <Breadcrumb>
-                            <BreadcrumbItem><Link to ="/approver"><i className="fa fa-user fa-sm"></i> Requester</Link></BreadcrumbItem>
+                            <BreadcrumbItem><Link to ="/requester"><i className="fa fa-user fa-sm"></i> Requester</Link></BreadcrumbItem>
                             <BreadcrumbItem active>View Active Request</BreadcrumbItem>
                         </Breadcrumb>
                         <div className="col-12">
