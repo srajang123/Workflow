@@ -1,16 +1,26 @@
-import React from 'react';
+import React, {Component} from 'react';
 import { BrowserRouter } from 'react-router-dom'
 
 import Main from './components/MainComponent';
 
-function App() {
-  return (
+class App extends Component{
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount = () => {
+    
+  }
+  
+  render() {
+    return (
       <BrowserRouter>
         <div className="App">
           <Main />
         </div>
       </BrowserRouter>
-  );
+    );
+  }
 }
 
 export default App;
