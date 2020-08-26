@@ -9,7 +9,8 @@ class RequesterHeader extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        isOpen : false
+        isOpen : false,
+        activeUserId: ""
     }
     this.toggle = this.toggle.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -26,6 +27,9 @@ class RequesterHeader extends Component {
     if(authData.roll!=="requester") {
       history.push("/home");  
     }
+    this.setState({
+        activeUserId : authData.activeUserId
+    })
   }
 
   handleSubmit(values) {

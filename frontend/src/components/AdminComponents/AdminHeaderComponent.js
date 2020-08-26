@@ -10,15 +10,19 @@ class AdminHeader extends Component {
     super(props);
     this.state = {
         isOpen : false,
+        activeUserId : ""
     }
     this.toggle = this.toggle.bind(this);
   }
 
   componentDidMount() {
-    var authData = JSON.parse(Cookies.get("activeUser"));
+    var authData = Cookies.getJSON("activeUser");
     if(authData.roll!=="admin") {
       history.push("/home");  
     }
+    this.setState({
+      activeUserId : authData.activeUserId
+    });
   }
 
   toggle = () => {

@@ -8,7 +8,8 @@ class ApproverHeader extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isOpen : false
+            isOpen : false,
+            activeUserId : ""
         }
         this.toggle = this.toggle.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -20,10 +21,13 @@ class ApproverHeader extends Component {
         });
     }
     componentDidMount() {
-        var authData = JSON.parse(Cookies.get("activeUser"));
+        var authData = Cookies.getJSON("activeUser");
         if(authData.roll!=="approver") {
             history.push("/home");  
         }
+        this.setState({
+            activeUserId : authData.activeUserId
+        })
     }
 
     handleSubmit(values) {
