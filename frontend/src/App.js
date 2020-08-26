@@ -1,24 +1,18 @@
 import React, {Component} from 'react';
-import { BrowserRouter } from 'react-router-dom'
+import { Router } from 'react-router-dom'
 
 import Main from './components/MainComponent';
 
-class App extends Component{
-  constructor(props) {
-    super(props);
-  }
+import history from './components/history';
 
-  componentDidMount = () => {
-    
-  }
-  
+class App extends Component{
   render() {
     return (
-      <BrowserRouter>
+      <Router history = {history}>
         <div className="App">
           <Main />
         </div>
-      </BrowserRouter>
+      </Router>
     );
   }
 }

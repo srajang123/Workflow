@@ -3,6 +3,8 @@ import { Breadcrumb, BreadcrumbItem, Col, Label, Form ,FormGroup, Input, Button 
 import { Link } from 'react-router-dom';
 
 import HeaderComponent from './HeaderComponent';
+import auth from './Auth';
+import history from "./history";
 
 class Login extends Component {
     constructor(props) {
@@ -77,7 +79,12 @@ class Login extends Component {
             // ready to request server
             if(!window.confirm("Are you sure?"))return;
             alert(this.state.email + " " + this.state.password);
+            auth.login(() => {
+                history.push("/admin");
+            })
         }
+
+
 
     }
 
