@@ -2,7 +2,8 @@ import React, { Component, Fragment } from 'react';
 import { Navbar, NavbarBrand, NavbarToggler, Collapse,
  Nav, NavbarText, NavItem} from 'reactstrap';
 import { Link } from 'react-router-dom';
-
+import Cookies from "js-cookie";
+import history from '../history';
 class ApproverHeader extends Component {
     constructor(props) {
         super(props);
@@ -17,6 +18,12 @@ class ApproverHeader extends Component {
         this.setState({
             isOpen : !this.state.isOpen
         });
+    }
+    componentDidMount() {
+        var authData = JSON.parse(Cookies.get("activeUser"));
+        if(authData.roll!=="approver") {
+            history.push("/home");  
+        }
     }
 
     handleSubmit(values) {

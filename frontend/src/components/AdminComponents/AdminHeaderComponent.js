@@ -2,14 +2,23 @@ import React, { Component, Fragment } from 'react';
 import { Nav, Navbar, NavbarBrand, NavbarText,
   NavbarToggler, Collapse, NavItem} from 'reactstrap';
 import { Link } from 'react-router-dom';
+import Cookies from 'js-cookie';
+import history from "../history";
 
 class AdminHeader extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        isOpen : false
+        isOpen : false,
     }
     this.toggle = this.toggle.bind(this);
+  }
+
+  componentDidMount() {
+    var authData = JSON.parse(Cookies.get("activeUser"));
+    if(authData.roll!=="admin") {
+      history.push("/home");  
+    }
   }
 
   toggle = () => {

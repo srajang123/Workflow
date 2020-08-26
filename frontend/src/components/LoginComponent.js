@@ -3,8 +3,8 @@ import { Breadcrumb, BreadcrumbItem, Col, Label, Form ,FormGroup, Input, Button 
 import { Link } from 'react-router-dom';
 
 import HeaderComponent from './HeaderComponent';
-import auth from './Auth';
 import history from "./history";
+import Cookies from "js-cookie";
 
 class Login extends Component {
     constructor(props) {
@@ -25,8 +25,6 @@ class Login extends Component {
     componentDidMount = () => {
         console.log(this.props.activeUser);
     }
-
-    
 
     handleInputChange(event) {
         const target = event.target;
@@ -78,14 +76,25 @@ class Login extends Component {
         if(clientSideVerification) {
             // ready to request server
             if(!window.confirm("Are you sure?"))return;
-            alert(this.state.email + " " + this.state.password);
-            auth.login(() => {
-                history.push("/admin");
+            //alert(this.state.email + " " + this.state.password);
+
+            // API Request
+            var roll = "admin";
+            var activeUserId = "1871923";
+            
+            Cookies.set("activeUser", {
+                authenticated : true,
+                roll : roll,
+                activeUserId : activeUserId
             })
+
+            if(roll==="admin")history.push("/admin");
+            else if(roll==="requester")history.push("/requester");
+            else if(roll==="approver")history.push("/approver");
+            
+        } else {
+            alert("Validation is not satified !")
         }
-
-
-
     }
 
     render() {
