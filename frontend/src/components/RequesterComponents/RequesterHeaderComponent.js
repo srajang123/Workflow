@@ -14,12 +14,17 @@ class RequesterHeader extends Component {
     }
     this.toggle = this.toggle.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.logout = this.logout.bind(this);
   }
 
   toggle = () => {
       this.setState({
           isOpen : !this.state.isOpen
       });
+  }
+
+  logout = () => {
+    Cookies.remove('activeUser');
   }
 
   componentDidMount() {
@@ -61,7 +66,7 @@ class RequesterHeader extends Component {
                               <Link to="/">Remove</Link>
                           </NavItem> */}
                           <NavItem style={{margin : 10}}>
-                          <Link to="/"><i className="fa fa-sign-out fa-sm"></i>  Logout</Link>
+                          <Link to="/home" onClick={this.logout}><i className="fa fa-sign-out fa-sm"></i>  Logout</Link>
                           </NavItem>
                       </Nav>
                       <NavbarText>TCS PROJECT</NavbarText>
