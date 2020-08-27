@@ -59,7 +59,14 @@ router.get('/admin/schema/data', (req, res, next) => {
             db.query('INSERT INTO ROLE VALUES($1,$2,$3,$4,$5,$6)', ['1001', 'Srajan', 'Gupta', 'srajan.t2@tcs.com', rest, 'admin']);
         });
 
-    
-    
+    bcrypt.hash('Mann@2108', 12)
+        .then(rest => {
+        db.query('INSERT INTO ROLE VALUES($1,$2,$3,$4,$5,$6)', ['1002', 'Approver_FName', 'Approver_LName', 'approver@tcs.com', rest, 'approver']);
+        });
+
+    bcrypt.hash('Mann@2108', 12)
+        .then(rest => {
+            db.query('INSERT INTO ROLE VALUES($1,$2,$3,$4,$5,$6)', ['1003', 'Requester_FName', 'Requester_LName', 'requester@tcs.com', rest, 'requester']);
+        });
 })
 module.exports = router;
