@@ -10,7 +10,7 @@ class RequesterHeader extends Component {
     super(props);
     this.state = {
         isOpen : false,
-        activeUserId: ""
+        activeUser: ""
     }
     this.toggle = this.toggle.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -24,11 +24,11 @@ class RequesterHeader extends Component {
 
   componentDidMount() {
     var authData = JSON.parse(Cookies.get("activeUser"));
-    if(authData.roll!=="requester") {
+    if(authData.role!=="requester") {
       history.push("/home");  
     }
     this.setState({
-        activeUserId : authData.activeUserId
+        activeUser : authData.role
     })
   }
 

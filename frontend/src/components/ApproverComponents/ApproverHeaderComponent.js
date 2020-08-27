@@ -9,7 +9,7 @@ class ApproverHeader extends Component {
         super(props);
         this.state = {
             isOpen : false,
-            activeUserId : ""
+            activeUser : ""
         }
         this.toggle = this.toggle.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -22,11 +22,11 @@ class ApproverHeader extends Component {
     }
     componentDidMount() {
         var authData = Cookies.getJSON("activeUser");
-        if(authData.roll!=="approver") {
+        if(authData.role!=="approver") {
             history.push("/home");  
         }
         this.setState({
-            activeUserId : authData.activeUserId
+            activeUser : authData.mail
         })
     }
 
