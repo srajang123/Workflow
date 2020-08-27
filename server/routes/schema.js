@@ -46,11 +46,17 @@ router.get('/admin/schema/data', (req, res, next) => {
     db.query('INSERT INTO PRODUCTS VALUES($1,$2)', ['103', 'Keyboard']);
     db.query('INSERT INTO PRODUCTS VALUES($1,$2)', ['104', 'Mouse']);
     db.query('INSERT INTO PRODUCTS VALUES($1,$2)', ['105', 'Speaker']);
+    
     //creating users
-    let pass = '';
+    
+    bcrypt.hash('Mann@2108', 12)
+        .then(rest => {
+            db.query('INSERT INTO ROLE VALUES($1,$2,$3,$4,$5,$6)', ['1000', 'Mann', 'Mehta', 'mehta.m1@tcs.com', rest, 'admin']);
+        })
+    
     bcrypt.hash('Tcs#69@123', 12)
         .then(rest => {
             db.query('INSERT INTO ROLE VALUES($1,$2,$3,$4,$5,$6)', ['1001', 'Srajan', 'Gupta', 'srajan.t2@tcs.com', rest, 'admin']);
-        })
+        });
 })
 module.exports = router;
