@@ -17,7 +17,7 @@ class ApproverAllRequest extends Component {
                             <BreadcrumbItem active>View All Request</BreadcrumbItem>
                         </Breadcrumb>
                         <div className="col-12">
-                            <h3>View All Request</h3>
+                            <h3>All Request</h3>
                             <hr />
                         </div>
                     </div>

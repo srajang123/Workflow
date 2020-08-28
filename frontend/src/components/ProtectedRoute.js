@@ -8,9 +8,8 @@ export const ProtectedRoute = ({component : Component, ...rest}) => {
         {...rest} 
         render={props => {
             var auth = Cookies.getJSON("activeUser");
-            console.log(auth);
             if(auth===undefined) return <Redirect to="/"/>;
-            else if (auth.authenticated) {
+            else if (auth.login) {
                 return <Component {...props} />;
             } else {
                 return <Redirect to="/"/>;

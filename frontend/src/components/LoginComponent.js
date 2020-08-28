@@ -6,12 +6,15 @@ import HeaderComponent from './HeaderComponent';
 import history from "./history";
 import Cookies from "js-cookie";
 
+import axios from "axios";
+
 class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
             email : "",
             password : "",
+            loginStatus : "",
             touched : {
                 email : false,
                 password : false
@@ -23,7 +26,24 @@ class Login extends Component {
     }
 
     componentDidMount = () => {
-        console.log(this.props.activeUser);
+
+        var authData = Cookies.getJSON("activeUser");
+    
+        if(authData && authData.login) {
+            if(authData.role==="admin")history.push("/admin");
+            else if(authData.role==="requester")history.push("/requester");
+            else if(authData.role==="approver")history.push("/approver"); 
+        }
+
+        this.setState({
+            email : "",
+            password : "",
+            loginStatus : "",
+            touched : {
+                email : false,
+                password : false
+            }
+        });
     }
 
     handleInputChange(event) {
@@ -55,12 +75,6 @@ class Login extends Component {
 
         return errors;
     }
-    
-
-    // handleSubmit(values) {
-    //     console.log('State : ' + JSON.stringify(values));
-    //     alert('state' + JSON.stringify(values));
-    // }
 
     handleSubmit = async (event) => {
         event.preventDefault();
@@ -68,32 +82,48 @@ class Login extends Component {
         var clientSideVerification = this.state.touched.email && this.state.touched.password;
 
         if(clientSideVerification) {
-            const errors = this.validateState;
-            if(errors.email==="")clientSideVerification=false;
-            else if(errors.password==="")clientSideVerification=false;
+            let errors = this.validateState();
+            if(errors.email!=="")clientSideVerification=false;
+            if(errors.password!=="")clientSideVerification=false;
         }
-
+        
         if(clientSideVerification) {
-            // ready to request server
+            
+            // Ready to request server
             if(!window.confirm("Are you sure?"))return;
-            //alert(this.state.email + " " + this.state.password);
-
+            
+            
+            console.log(this.state.email, this.state.password);
             // API Request
-            var roll = "admin";
-            var activeUserId = "123456";
-            
-            Cookies.set("activeUser", {
-                authenticated : true,
-                roll : roll,
-                activeUserId : activeUserId
-            })
+            axios.post('http://localhost:5000/login', {
+                    mail : this.state.email,
+                    password : this.state.password
+                })
+                .then((response) => {
+                
+                //console.log(response);
+                const role = response.data.role;
+    
+                Cookies.set("activeUser", {
+                    login : response.data.login,
+                    role : response.data.role,
+                    mail: response.data.mail,
+                },{ expires: 1 });
 
-            if(roll==="admin")history.push("/admin");
-            else if(roll==="requester")history.push("/requester");
-            else if(roll==="approver")history.push("/approver");
-            
+                if(role==="admin")history.push("/admin");
+                else if(role==="requester")history.push("/requester");
+                else if(role==="approver")history.push("/approver");
+
+                })
+                .catch((error) => {
+                    this.setState({
+                        loginStatus : "login failed"
+                    });
+                });
         } else {
-            alert("Validation is not satified !")
+            this.setState({
+                loginStatus : "fill the form correctly"
+            });
         }
     }
 
@@ -102,7 +132,8 @@ class Login extends Component {
         const errors = this.validateState();
         const feedback = {
             color : 'red',
-            fontSize : '12px'
+            fontSize : '12px',
+            margin : 2
         }
 
         return (
@@ -111,7 +142,7 @@ class Login extends Component {
                 <div className="container">
                     <div className="row">
                         <Breadcrumb>
-                            <BreadcrumbItem><Link to ="/home"><i className="fa fa-user fa-sm"></i> Home</Link></BreadcrumbItem>
+                            <BreadcrumbItem><Link to ="/home"><i className="fa fa-home fa-sm"></i> Home</Link></BreadcrumbItem>
                             <BreadcrumbItem active>Login</BreadcrumbItem>
                         </Breadcrumb>
                         <div className="col-12">
@@ -154,6 +185,7 @@ class Login extends Component {
                                             <Button type="submit" color="primary">
                                                 login
                                             </Button>
+                                            <p style={feedback}>{this.state.loginStatus}</p>
                                         </Col>
                                     </FormGroup>
 

@@ -10,10 +10,11 @@ class RequesterHeader extends Component {
     super(props);
     this.state = {
         isOpen : false,
-        activeUserId: ""
+        activeUser: ""
     }
     this.toggle = this.toggle.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.logout = this.logout.bind(this);
   }
 
   toggle = () => {
@@ -22,13 +23,17 @@ class RequesterHeader extends Component {
       });
   }
 
+  logout = () => {
+    Cookies.remove('activeUser');
+  }
+
   componentDidMount() {
     var authData = JSON.parse(Cookies.get("activeUser"));
-    if(authData.roll!=="requester") {
+    if(authData.role!=="requester") {
       history.push("/home");  
     }
     this.setState({
-        activeUserId : authData.activeUserId
+        activeUser : authData.role
     })
   }
 
@@ -61,7 +66,7 @@ class RequesterHeader extends Component {
                               <Link to="/">Remove</Link>
                           </NavItem> */}
                           <NavItem style={{margin : 10}}>
-                          <Link to="/"><i className="fa fa-sign-out fa-sm"></i>  Logout</Link>
+                          <Link to="/home" onClick={this.logout}><i className="fa fa-sign-out fa-sm"></i>  Logout</Link>
                           </NavItem>
                       </Nav>
                       <NavbarText>TCS PROJECT</NavbarText>
