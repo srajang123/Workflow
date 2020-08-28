@@ -17,7 +17,7 @@ class ApproverActiveRequest extends Component {
                             <BreadcrumbItem active>View Active Request</BreadcrumbItem>
                         </Breadcrumb>
                         <div className="col-12">
-                            <h3>View Active Request</h3>
+                            <h3>Active Request</h3>
                             <hr />
                         </div>
                     </div>

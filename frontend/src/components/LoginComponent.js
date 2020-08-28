@@ -142,7 +142,7 @@ class Login extends Component {
                 <div className="container">
                     <div className="row">
                         <Breadcrumb>
-                            <BreadcrumbItem><Link to ="/home"><i className="fa fa-user fa-sm"></i> Home</Link></BreadcrumbItem>
+                            <BreadcrumbItem><Link to ="/home"><i className="fa fa-home fa-sm"></i> Home</Link></BreadcrumbItem>
                             <BreadcrumbItem active>Login</BreadcrumbItem>
                         </Breadcrumb>
                         <div className="col-12">

@@ -1,12 +1,24 @@
 import React, { Fragment } from 'react';
-import { Jumbotron } from 'reactstrap';
+import { Jumbotron, Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import { Link } from 'react-router-dom';
+
 import AdminHeader from './AdminHeaderComponent';
 
 function Admin() {
   return (
     <Fragment>
       <AdminHeader />
-      <Fragment>
+      <div className="container">
+        <div className="row">
+          <Breadcrumb>
+              <BreadcrumbItem><Link to ="/home"><i className="fa fa-home fa-sm"></i> Home</Link></BreadcrumbItem>
+              <BreadcrumbItem active> Admin</BreadcrumbItem>
+          </Breadcrumb>
+          <div className="col-12">
+              <h3>Login</h3>
+              <hr />
+          </div>
+        </div>
         <Jumbotron>
           <div className="container">
             <div className="row row-header">
@@ -25,7 +37,7 @@ function Admin() {
             <h1>Admin Page</h1>
           </div>
         </div>
-      </Fragment>
+      </div>
     </Fragment>
   );
 }
