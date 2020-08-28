@@ -51,7 +51,7 @@ router.get('/admin/schema/data', (req, res, next) => {
     
     bcrypt.hash('Mann@2108', 12)
         .then(rest => {
-            db.query('INSERT INTO ROLE VALUES($1,$2,$3,$4,$5,$6)', ['1000', 'Mann', 'Gupta', 'srajan.t2@tcs.com', rest, 'admin']);
+            db.query('INSERT INTO ROLE VALUES($1,$2,$3,$4,$5,$6)', ['1000', 'Mann', 'Mehta', 'mehta.m1@tcs.com', rest, 'admin']);
         })
     
     bcrypt.hash('Tcs#69@123', 12)
