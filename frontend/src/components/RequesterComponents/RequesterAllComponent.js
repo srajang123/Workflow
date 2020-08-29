@@ -12,7 +12,7 @@ const RequesterAllRequest = () => {
 
     const fetchData = async () => {
 
-        activeUser = Cookies.getJSON("activeUser");
+        let activeUser = Cookies.getJSON("activeUser");
         axios.get('https://localhost:5000/requesterAll?mail:'+activeUser.mail)
         .then((response) => {
             setRequesterRequestData(response);
@@ -34,10 +34,10 @@ const RequesterAllRequest = () => {
                 <div className="row">
                     <Breadcrumb>
                         <BreadcrumbItem><Link to ="/requester"><i className="fa fa-user fa-sm"></i> Requester</Link></BreadcrumbItem>
-                        <BreadcrumbItem active>View All Request</BreadcrumbItem>
+                        <BreadcrumbItem active>All Request</BreadcrumbItem>
                     </Breadcrumb>
                     <div className="col-12">
-                        <h3>View All Request</h3>
+                        <h3>All Request</h3>
                         <hr />
                     </div>
                 </div>
