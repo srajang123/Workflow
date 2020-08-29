@@ -28,10 +28,8 @@ class RaiseRequest extends Component {
                 requesterNote : false,
                 confirm : false,
             },
-            fetchData : {
-                products : "",
-                approvers : ""
-            }
+            products : [],
+            approvers : []
         }
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -39,12 +37,33 @@ class RaiseRequest extends Component {
         this.handleBlur = this.handleBlur.bind(this);
     }
 
-    componentDidMount = () => {
-        // Fetching all approvers, products
-        var activeUserMail = Cookies.getJSON('activeUser').mail;
+    async componentDidMount() {
+        
+        const cookieMail = await Cookies.getJSON('activeUser').mail;
+        
         this.setState({
-            activeUserMail : activeUserMail
+            activeUserMail : cookieMail
         })
+        const productResponse = await axios.get("http://localhost:5000/products");
+
+        if(productResponse.status===200) {
+
+            this.setState({
+                products : productResponse.data
+            })
+            
+            const approverResponse = await axios.get("http://localhost:5000/approvers");
+            
+            if(approverResponse.status===200) {
+                this.setState({
+                    approvers : approverResponse.data
+                });
+            } else {
+                console.log(approverResponse.statusText);
+            }
+        } else {
+            console.log(productResponse.statusText);
+        }
     }
 
     handleInputChange(event) {
@@ -58,8 +77,34 @@ class RaiseRequest extends Component {
             })
         }
         else {
+            if(name==="productId") {
+                let pName = "";
+                this.state.products.map((item) => {
+                    // console.log(typeof(item.prod_id),item.prod_id);
+                    if(item.prod_id===value) {
+                        pName = item.name;
+                    }
+                });
+                this.setState({
+                    productName : pName
+                })
+            }
+            if(name==="approverId") {
+                let fName = "";
+                let lName = "";
+                this.state.approvers.map((item) => {
+                    if(item.user_id===value) {
+                        fName = item.fname;
+                        lName = item.lname;
+                    }
+                });
+                this.setState({
+                    approverFName : fName,
+                    approverLName : lName
+               });
+            }
             this.setState({
-                 [name] : value
+                 [name] : value,
             });
         }
     }
@@ -86,7 +131,6 @@ class RaiseRequest extends Component {
 
     handleSubmit = async (event) => {
         event.preventDefault();
-        console.log("hello");
         let clientSideVerification = this.state.touched.productId && this.state.touched.approverId && this.state.requesterNote && this.state.touched.confirm;
         const errors = this.validateState();
         if(clientSideVerification) {
@@ -95,15 +139,8 @@ class RaiseRequest extends Component {
             if(errors.confirm!=="")clientSideVerification=false;
 
             if(clientSideVerification) {                
-                
-                /// Ready to post request to server
 
-
-
-
-                this.setState({
-                    submit : "Request Submitted Successfully"
-                });
+                // Post Request to Server
                 
             } else {
                 this.setState({
@@ -123,6 +160,15 @@ class RaiseRequest extends Component {
             fontSize : '12px',
             margin : 2
         }
+        
+        const productsId = this.state.products.map((item) =>
+            <option >{item.prod_id}</option>
+        );
+        
+        const approversId = this.state.approvers.map((item) =>
+            <option >{item.user_id}</option>
+        );
+        
         return (
             <Fragment>
                 <RequesterHeader />
@@ -151,11 +197,7 @@ class RaiseRequest extends Component {
                                                     onChange={this.handleInputChange} 
                                                 >
                                                 <option>NA</option>
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option>
+                                                {productsId}
                                                 </Input>
                                                 <p style={feedback}>{errors.productId}</p>
                                             </FormGroup>
@@ -190,11 +232,7 @@ class RaiseRequest extends Component {
                                                 onChange={this.handleInputChange} 
                                                 >
                                                 <option>NA</option>
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option>
+                                                {approversId}
                                                 </Input>
                                                 <p style={feedback}>{errors.approverId}</p>
                                             </FormGroup>

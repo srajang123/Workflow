@@ -11,14 +11,9 @@ router.get('/products', (req, res, next) => {
             console.log("Status Code: 500"); //Internal Server Error
             res.status(500).json({"statusText" : err.message});
         }
-        else if (rest.rowCount=0) {
-            console.log('Status Code: 403'); //User Not Found
-            res.status(403).json({"statusText" : "User Not Found !"});
-        } else {
+        else {
             console.log('Status Code: 200');  //Login Successful
-            let resData = {
-                "products" : rest,
-            };
+            let resData =  rest.rows;
             res.status(200).json(resData).end();
         }
     });
