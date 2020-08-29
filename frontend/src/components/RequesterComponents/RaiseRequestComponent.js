@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 
 import RequesterHeader from './RequesterHeaderComponent';
 
-import history from "../history";
 import Cookies from "js-cookie";
 
 import axios from "axios"
@@ -97,7 +96,7 @@ class RaiseRequest extends Component {
 
             if(clientSideVerification) {                
                 
-                /// ready to post request to server
+                /// Ready to post request to server
 
 
 
