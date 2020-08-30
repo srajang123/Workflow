@@ -5,7 +5,7 @@ router = express.Router();
 
 router.get('/approvers', (req, res, next) => {
     console.log("approvers");
-    db.query("SELECT fname, lname, user_id FROM ROLE WHERE ROLE='approver'", (err, rest) => {
+    db.query("SELECT fname, lname, user_id FROM ROLE WHERE ROLE='approver' ORDER BY user_id ASC", (err, rest) => {
         if (err) {
             res.statusMessage = err.message;
             console.log("Status Code: 500"); //Internal Server Error

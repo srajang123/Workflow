@@ -38,7 +38,7 @@ class RaiseRequest extends Component {
     }
 
     async componentDidMount() {
-        
+        // Fetching all approvers, products
         const cookieMail = await Cookies.getJSON('activeUser').mail;
         
         this.setState({
@@ -77,6 +77,8 @@ class RaiseRequest extends Component {
             })
         }
         else {
+            
+            
             if(name==="productId") {
                 let pName = "";
                 this.state.products.map((item) => {
@@ -89,10 +91,12 @@ class RaiseRequest extends Component {
                     productName : pName
                 })
             }
+
             if(name==="approverId") {
                 let fName = "";
                 let lName = "";
                 this.state.approvers.map((item) => {
+                    // console.log(typeof(item.prod_id),item.prod_id);
                     if(item.user_id===value) {
                         fName = item.fname;
                         lName = item.lname;
@@ -103,6 +107,8 @@ class RaiseRequest extends Component {
                     approverLName : lName
                });
             }
+
+
             this.setState({
                  [name] : value,
             });
@@ -139,9 +145,22 @@ class RaiseRequest extends Component {
             if(errors.confirm!=="")clientSideVerification=false;
 
             if(clientSideVerification) {                
-
-                // Post Request to Server
-                
+                axios.post("http://localhost:5000/new",{
+                    productId : this.state.productId,
+                    approverId : this.state.approverId,
+                    activeUserMail : this.state.activeUserMail,
+                    requesterNote : this.state.requesterNote
+                }).then((response) => {
+                    console.log(response);
+                    this.setState({
+                        submit : response.data.statusText
+                    });
+                }).catch((err) => {
+                    console.log(err); 
+                    this.setState({
+                        submit : err.message
+                    })
+                });
             } else {
                 this.setState({
                     submit : "Fill the form correctly"    

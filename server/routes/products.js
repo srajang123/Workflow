@@ -5,7 +5,7 @@ router = express.Router();
 
 router.get('/products', (req, res, next) => {
     console.log("prodcuts");
-    db.query('SELECT * FROM PRODUCTS', (err, rest) => {
+    db.query('SELECT * FROM PRODUCTS ORDER BY prod_id ASC', (err, rest) => {
         if (err) {
             res.statusMessage = err.message;
             console.log("Status Code: 500"); //Internal Server Error

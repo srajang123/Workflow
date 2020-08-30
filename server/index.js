@@ -14,11 +14,13 @@ app.use(cors());
 const loginRoutes = require('./routes/loginRoutes');
 const schemaRoutes = require('./routes/schema');
 const products = require('./routes/products');
-const approversRoutes = require('./routes/approverRoutes')
+const approverRoutes = require('./routes/approverRoutes')
+const requesterRoutes = require('./routes/requesterRoutes');
 
 app.use(loginRoutes);
 app.use(schemaRoutes);
 app.use(products);
-app.use(approversRoutes);
+app.use(approverRoutes);
+app.use(requesterRoutes);
 
 app.listen(PORT, console.log(`App running at PORT ${PORT}`));
