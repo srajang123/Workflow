@@ -8,7 +8,7 @@ router.post('/login', (req, res, next) => {
     console.log(req.body);
     const { mail, password } = req.body;
 
-    db.query('SELECT * FROM ROLE WHERE EMAIL=$1', [mail], (err, rest) => {
+    db.query('SELECT * FROM ROLE WHERE EMAIL=$1', [mail], (err, res) => {
         if (err) {
             res.statusMessage = err.message;
             console.log("Status Code: 500"); //Internal Server Error
@@ -28,7 +28,7 @@ router.post('/login', (req, res, next) => {
                             "role" : rest.rows[0].role,
                             "mail" : mail
                         };
-                        res.status(200).json(resData);
+                        res.status(201).json(resData);
                     } else {
                         console.log('Status Code: 403'); //Wrong password
                         res.status(403).json({"statusText" : "Invalid Password !"});
