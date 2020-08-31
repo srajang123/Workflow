@@ -36,7 +36,7 @@ class ApproverAllRequest extends Component {
                             <hr />
                         </div>
                     </div>
-                    <ViewRequest data = {this.fetchData()} role = "approver"/>
+                    <ViewRequest data = {this.fetchData()} role = "approver" all = {false}/>
                 </div>
             </Fragment>
         );

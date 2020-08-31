@@ -36,7 +36,7 @@ class RequesterAllRequest extends Component {
                             <hr />
                         </div>
                     </div>
-                    <ViewRequest data = {this.fetchData()} role = "requester"/>
+                    <ViewRequest data = {this.fetchData()} role = "requester" all = {false}/>
                 </div>
             </Fragment>
         );
