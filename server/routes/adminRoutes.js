@@ -43,13 +43,13 @@ router.post('/create', (req, res, next) => {
 });
 
 router.post('/delete', (req, res, next) => {
-    const { mail } = req.body;
-    db.query('DELETE FROM ROLE WHERE EMAIL=$1', [mail], (err, rest) => {
+    const { id } = req.body;
+    db.query('DELETE FROM ROLE_STATUS WHERE USER_ID=$1', [id], (err, rest) => {
         if (err) {
             res.send({ status: -1 });
             throw err;
         } else {
-            db.query('DELETE FROM ROLE_STATUS WHERE EMAIL=$1', [mail], (err, rest) => {
+            db.query('DELETE FROM ROLE WHERE USER_ID=$1', [id], (err, rest) => {
                 if (err) {
                     res.send({ status: -1 });
                     throw err;
@@ -72,7 +72,7 @@ router.get('/get', (req, res, next) => {
 });
 router.get('/switch/:id', (req, res, next) => {
     const { id } = req.params;
-    db.query('UPDATE ROLE_STATUS SET STATUS="inactive" WHERE USER_ID=?', [id], (err, rest) => {
+    db.query("UPDATE ROLE_STATUS SET STATUS='inactive' WHERE USER_ID=$1", [id], (err, rest) => {
         if (err) {
             res.send({ status: -1 });
             throw err;
