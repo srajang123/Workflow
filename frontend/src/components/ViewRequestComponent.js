@@ -3,24 +3,24 @@ import { Spinner, Row, Col, Card, Button, CardHeader,
     CardBody, CardText ,ListGroup, ListGroupItem,
     Modal, ModalHeader, ModalBody, ModalFooter, Input, Label} from 'reactstrap';
 
-class SingleCardBody extends Component{
+import axios from 'axios';
+
+class SingleCardBody extends Component {
     constructor(props) {
         super(props);
         this.state = {
             modal : false,
             approverNote : "",
-            touched : {
-                approverNote : false,
-            }
+            error : "",
+            disable : false
         }
         this.toggle = this.toggle.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleBlur = this.handleBlur.bind(this);
+        this.approved = this.approved.bind(this);
+        this.rejected = this.rejected.bind(this);
     }
 
     toggle() {
-        console.log(this.state.touched);
         this.setState({
             modal : !this.state.modal
         })
@@ -35,26 +35,64 @@ class SingleCardBody extends Component{
        });
     }
 
-    handleBlur = (field) => (evt) => {
-        this.setState({
-            touched : { ...this.state.touched, [field] : true }
-        })
+    approved = async(request) => {
+        if(this.state.approverNote==="") {
+            this.setState({
+                error : "Review note is required field"
+            });
+        } else {
+
+            axios.post('http://localhost:5000/approver/request/action', {
+                status : "approved",
+                requestId : request.request_id,
+                approverNote : this.state.approverNote
+            })
+            .then((response) => {
+                this.setState({
+                    error : "Request Approved",
+                    disable : true
+                });
+            })
+            .catch((error) => {
+                this.setState({
+                    error : "Server Error"
+                });
+            });
+        }
+        
     }
 
-
-    handleSubmit = async (event) => {
-    }
-
-
-    review(data) {
-        // trigger modal here
+    rejected = async (request) => {
+        if(this.state.approverNote==="") {
+            this.setState({
+                error : "Review note is required field",
+            });
+        } else {
+            axios.post('http://localhost:5000/approver/request/action', {
+                status : "rejected",
+                requestId : request.request_id,
+                approverNote : this.state.approverNote
+            })
+            .then((response) => {
+                this.setState({
+                    error : "Request Rejected",
+                    disable : true
+                });
+            })
+            .catch((error) => {
+                this.setState({
+                    error : "Server Error"
+                });
+            });
+            
+        }
     }
 
     render() {
         return(
             <Col sm="6">
                 <Card body>
-                    <CardHeader tag="h6">Request ID - #{this.props.item.request_id}</CardHeader>
+        <CardHeader tag="h6">Request ID - #{this.props.item.request_id} {this.props.item.approver_comment===null ? "Active" : "Reviewed"}</CardHeader>
                     <CardBody>
                         <CardText>
                             <ListGroup>
@@ -67,22 +105,21 @@ class SingleCardBody extends Component{
                                 <ListGroupItem color="info" style={{display : this.props.toggle.approver}}>Your Comment : {this.props.item.approver_comment}</ListGroupItem>
                             </ListGroup>
                         </CardText>
-                        <Button onClick={() => {this.toggle(this.props.item)}} style={{display : this.props.toggle.approver}} color="primary">Review</Button>
+                        <Button onClick={() => {this.toggle(this.props.item)}} style={{display : this.props.toggle.all? "block" : "none"}} color="primary">Review</Button>
                     </CardBody>
                 </Card>
                 <Modal isOpen={this.state.modal} toggle={this.state.toggle} backdrop="static" keyboard={true}>
                     <ModalHeader toggle={this.state.toggle}>Request ID - #{this.props.item.request_id}</ModalHeader>
                     <ModalBody>
-                        <Label for="approverNote">Approver Note (200 words)<span style={{color:'red'}}> *</span></Label>
+                        <Label for="approverNote"><h6>Review Note - <span style={{color:'red'}}> *</span></h6><p><span span style={{color:'red'}}>{this.state.error}</span></p></Label>
                         <Input type="textarea" name="approverNote" id="approverNote" rows="6"
                             value={this.state.approverNote}
-                            onChange={this.handleInputChange} 
-                            onBlur = {this.handleBlur('approverNote')}
+                            onChange={this.handleInputChange}
                         />
                     </ModalBody>
                     <ModalFooter>
-                        <Button color="success" onClick={() => {this.toggle(this.props.item)}}>Approved</Button>{' '}
-                        <Button color="danger" onClick={() => {this.toggle(this.props.item)}}>Rejected</Button>{' '}
+                        <Button color="success" onClick={() => {this.approved(this.props.item)}} disabled={this.state.disable}>Approved</Button>{' '}
+                        <Button color="danger" onClick={() => {this.rejected(this.props.item)}} disabled={this.state.disable}>Rejected</Button>{' '}
                         <Button color="primary" onClick={() => {this.toggle(this.props.item)}}>Cancel</Button>
                     </ModalFooter>
                 </Modal>
@@ -100,29 +137,33 @@ class ViewRequest extends Component {
             role : "",
             toggle : {
                 requester : "none",
-                approver : "node",
+                approver : "none",
+                all : false,
             }
         }
     }
 
     componentDidMount() {
         this.props.data.then((res)=> {
+            console.log(res);
             if(this.props.role==="requester") {
                 this.setState({
                     data : res,
                     role : this.props.role,
                     toggle : {
                         requester : "block",
-                        approver : "none"
+                        approver : "none",
+                        all : this.props.all
                     }
-                })
+                });
             } else if(this.props.role==="approver") {
                 this.setState({
                     data : res,
                     role : this.props.role,
                     toggle : {
                         requester : "none",
-                        approver : "block"
+                        approver : "block",
+                        all : this.props.all
                     }
                 })
             } 
