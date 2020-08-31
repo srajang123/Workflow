@@ -5,7 +5,22 @@ import { Link } from 'react-router-dom';
 import ViewRequest from '../ViewRequestComponent';
 import RequesterHeader from './RequesterHeaderComponent';
 
+import Cookies from 'js-cookie';
+import axios from 'axios';
+
 class RequesterActiveRequest extends Component {
+
+    constructor(props) {
+        super(props);
+        this.fetchData = this.fetchData.bind(this);
+    }
+
+    async fetchData() {
+        let activeUser = await Cookies.getJSON("activeUser");
+        const activeRequests = await axios.get("http://localhost:5000/active/requester/"+activeUser.mail);
+        return activeRequests.data;    
+    }
+
     render() {
         return (
             <Fragment>
@@ -14,14 +29,14 @@ class RequesterActiveRequest extends Component {
                     <div className="row">
                         <Breadcrumb>
                             <BreadcrumbItem><Link to ="/requester"><i className="fa fa-user fa-sm"></i> Requester</Link></BreadcrumbItem>
-                            <BreadcrumbItem active>View Active Request</BreadcrumbItem>
+                            <BreadcrumbItem active>Active Request</BreadcrumbItem>
                         </Breadcrumb>
                         <div className="col-12">
-                            <h3>View Active Request</h3>
+                            <h3>Active Request</h3>
                             <hr />
                         </div>
                     </div>
-                    <ViewRequest />
+                    <ViewRequest data = {this.fetchData()} role = "requester"/>
                 </div>
             </Fragment>
         );

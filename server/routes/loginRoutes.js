@@ -5,24 +5,35 @@ const db = require('../util/database');
 router = express.Router();
 
 router.post('/login', (req, res, next) => {
-    const { mail, pass } = req.body;
+    console.log(req.body);
+    const { mail, password } = req.body;
+
     db.query('SELECT * FROM ROLE WHERE EMAIL=$1', [mail], (err, rest) => {
-        if (err) throw err;
-        if (rest.rows[0] === undefined) {
-            console.log('Status Code: -1'); //User Not Found
-            res.json({ status: -1 });
+        if (err) {
+            rest.statusMessage = err.message;
+            console.log("Status Code: 500"); //Internal Server Error
+            res.status(500).json({"statusText" : err.message});
+            //throw err;
+        }
+        else if (rest.rows[0] === undefined) {
+            console.log('Status Code: 403'); //User Not Found
+            res.status(403).json({"statusText" : "User Not Found !"});
         } else {
-            bcrypt.compare(pass, rest.rows[0].password)
+            bcrypt.compare(password, rest.rows[0].password)
                 .then(ret => {
                     if (ret) {
-                        console.log('Status Code: 1'); //Login Successful
-                        res.cookie('login', true);
-                        res.cookie('user', mail);
-                        res.json({ status: 1 });
+                        console.log('Status Code: 200');  //Login Successful
+                        let resData = {
+                            "login" : true,
+                            "role" : rest.rows[0].role,
+                            "mail" : mail
+                        };
+                        res.status(201).json(resData);
                     } else {
-                        console.log('Status code: 0'); //Wrong password
-                        res.json({ status: 0 });
+                        console.log('Status Code: 403'); //Wrong password
+                        res.status(403).json({"statusText" : "Invalid Password !"});
                     }
+                    res.end();
                 });
         }
     });

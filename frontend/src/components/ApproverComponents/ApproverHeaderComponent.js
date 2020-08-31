@@ -9,10 +9,11 @@ class ApproverHeader extends Component {
         super(props);
         this.state = {
             isOpen : false,
-            activeUserId : ""
+            activeUser : ""
         }
         this.toggle = this.toggle.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.logout = this.logout.bind(this);
     }
 
     toggle = () => {
@@ -22,17 +23,21 @@ class ApproverHeader extends Component {
     }
     componentDidMount() {
         var authData = Cookies.getJSON("activeUser");
-        if(authData.roll!=="approver") {
+        if(authData.role!=="approver") {
             history.push("/home");  
         }
         this.setState({
-            activeUserId : authData.activeUserId
+            activeUser : authData.mail
         })
     }
 
     handleSubmit(values) {
         console.log('State : ' + JSON.stringify(values));
         alert('state' + JSON.stringify(values));
+    }
+
+    logout = () => {
+        Cookies.remove('activeUser');
     }
 
     render() {
@@ -57,7 +62,7 @@ class ApproverHeader extends Component {
                                     <Link to="/">Remove</Link>
                                 </NavItem> */}
                                 <NavItem style={{margin : 10}}>
-                                <Link to="/"><i className="fa fa-sign-out fa-sm"></i>  Logout</Link>
+                                <Link to="/home" onClick={this.logout}><i className="fa fa-sign-out fa-sm"></i>  Logout</Link>
                                 </NavItem>
                             </Nav>
                             <NavbarText>TCS PROJECT</NavbarText>
