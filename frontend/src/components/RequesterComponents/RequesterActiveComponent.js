@@ -17,8 +17,8 @@ class RequesterActiveRequest extends Component {
 
     async fetchData() {
         let activeUser = await Cookies.getJSON("activeUser");
-        const allRequests = await axios.get("http://localhost:5000/active/requester/"+activeUser.mail);
-        return allRequests.data;    
+        const activeRequests = await axios.get("http://localhost:5000/active/requester/"+activeUser.mail);
+        return activeRequests.data;    
     }
 
     render() {

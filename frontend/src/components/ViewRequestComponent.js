@@ -30,7 +30,7 @@ class SingleCardBody extends Component{
                                 <ListGroupItem color="danger" style={{display : this.props.toggle.approver}}>Your Comment : {this.props.item.approver_comment}</ListGroupItem>
                             </ListGroup>
                         </CardText>
-                        <Button onClick={() => {this.review(this.props.item)}} style={{display : this.props.toggle.approver}}>Review</Button>
+                        <Button onClick={() => {this.review(this.props.item)}} style={{display : this.props.toggle.approver}} color="primary">Review</Button>
                     </CardBody>
                 </Card>
             </Col>

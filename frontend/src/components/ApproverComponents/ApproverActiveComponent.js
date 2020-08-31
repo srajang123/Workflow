@@ -5,7 +5,22 @@ import { Link } from 'react-router-dom';
 import ViewRequest from '../ViewRequestComponent';
 import ApproverHeader from './ApproverHeaderComponent';
 
+import Cookies from 'js-cookie';
+import axios from 'axios';
+
 class ApproverActiveRequest extends Component {
+
+    constructor(props) {
+        super(props);
+        this.fetchData = this.fetchData.bind(this);
+    }
+
+    async fetchData() {
+        let activeUser = await Cookies.getJSON("activeUser");
+        const activeRequests = await axios.get("http://localhost:5000/active/approver/"+activeUser.mail);
+        return activeRequests.data;
+    }
+
     render() {
         return (
             <Fragment>
@@ -21,7 +36,7 @@ class ApproverActiveRequest extends Component {
                             <hr />
                         </div>
                     </div>
-                    <ViewRequest />
+                    <ViewRequest data = {this.fetchData()} role = "approver"/>
                 </div>
             </Fragment>
         );

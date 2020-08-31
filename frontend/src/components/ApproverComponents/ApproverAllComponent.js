@@ -5,7 +5,22 @@ import { Link } from 'react-router-dom';
 import ViewRequest from '../ViewRequestComponent';
 import ApproverHeader from './ApproverHeaderComponent';
 
+import Cookies from 'js-cookie';
+import axios from 'axios';
+
 class ApproverAllRequest extends Component {
+
+    constructor(props) {
+        super(props);
+        this.fetchData = this.fetchData.bind(this);
+    }
+
+    async fetchData() {
+        let activeUser = await Cookies.getJSON("activeUser");
+        const allRequests = await axios.get("http://localhost:5000/all/approver/"+activeUser.mail);
+        return allRequests.data;    
+    }
+
     render() {
         return (
             <Fragment>
@@ -21,7 +36,7 @@ class ApproverAllRequest extends Component {
                             <hr />
                         </div>
                     </div>
-                    <ViewRequest />
+                    <ViewRequest data = {this.fetchData()} role = "approver"/>
                 </div>
             </Fragment>
         );
