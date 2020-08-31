@@ -12,7 +12,7 @@ router.get('/active/:role/:mail', (req,res,next) => {
         } else {
             const role = req.params.role;
             if(role==="requester") {
-                db.query('SELECT * from REQUESTS WHERE REQUESTER_ID=$1', [res1.rows[0].user_id], (err,res2) => {
+                db.query('SELECT * from REQUEST WHERE REQUESTER_ID=$1', [res1.rows[0].user_id], (err,res2) => {
                     if(err) {
                         res.statusMessage = err.message;
                         console.log("Status Code: 500"); //Internal Server Error
@@ -22,7 +22,7 @@ router.get('/active/:role/:mail', (req,res,next) => {
                     }
                 });
             } else {
-                db.query('SELECT * from REQUESTS WHERE APPROVER_ID=$1', [res1.rows[0].user_id], (err,res2) => {
+                db.query('SELECT * from REQUEST WHERE APPROVER_ID=$1', [res1.rows[0].user_id], (err,res2) => {
                     if(err) {
                         res.statusMessage = err.message;
                         console.log("Status Code: 500"); //Internal Server Error
@@ -45,7 +45,7 @@ router.get('/all/:role/:mail', (req,res,next) => {
         } else {
             const role = req.params.role;
             if(role==="requester") {
-                db.query('SELECT * from REQUESTS WHERE REQUESTER_ID=$1', [res1.rows[0].user_id], (err,res2) => {
+                db.query('SELECT * from REQUEST WHERE REQUESTER_ID=$1', [res1.rows[0].user_id], (err,res2) => {
                     if(err) {
                         res.statusMessage = err.message;
                         console.log("Status Code: 500"); //Internal Server Error
@@ -55,7 +55,7 @@ router.get('/all/:role/:mail', (req,res,next) => {
                     }
                 });
             } else {
-                db.query('SELECT * from REQUESTS WHERE APPROVER_ID=$1', [res1.rows[0].user_id], (err,res2) => {
+                db.query('SELECT * from REQUEST WHERE APPROVER_ID=$1', [res1.rows[0].user_id], (err,res2) => {
                     if(err) {
                         res.statusMessage = err.message;
                         console.log("Status Code: 500"); //Internal Server Error

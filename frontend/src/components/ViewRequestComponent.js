@@ -63,7 +63,7 @@ class ViewRequest extends Component {
                         approver : "none"
                     }
                 })
-            } else {
+            } else if(this.props.role==="approver") {
                 this.setState({
                     data : res,
                     role : this.props.role,
