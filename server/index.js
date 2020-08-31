@@ -12,7 +12,9 @@ app.use(cookieParser());
 
 const loginRoutes = require('./routes/loginRoutes');
 const schemaRoutes = require('./routes/schema');
+const adminRoutes = require('./routes/adminRoutes');
 
+app.use('/admin', adminRoutes);
 app.use(loginRoutes);
 app.use(schemaRoutes);
 
