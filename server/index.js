@@ -14,11 +14,13 @@ app.use(cors());
 
 const loginRoutes = require('./routes/loginRoutes');
 const schemaRoutes = require('./routes/schema');
+const adminRoutes = require('./routes/adminRoutes');
 const products = require('./routes/products');
 const approverRoutes = require('./routes/approverRoutes')
 const requesterRoutes = require('./routes/requesterRoutes');
 const requests = require('./routes/requests');
 
+app.use('/admin', adminRoutes);
 app.use(loginRoutes);
 app.use(schemaRoutes);
 app.use(products);
