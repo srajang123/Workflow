@@ -8,9 +8,9 @@ router.post('/login', (req, res, next) => {
     console.log(req.body);
     const { mail, password } = req.body;
 
-    db.query('SELECT * FROM ROLE WHERE EMAIL=$1', [mail], (err, res) => {
+    db.query('SELECT * FROM ROLE WHERE EMAIL=$1', [mail], (err, rest) => {
         if (err) {
-            res.statusMessage = err.message;
+            rest.statusMessage = err.message;
             console.log("Status Code: 500"); //Internal Server Error
             res.status(500).json({"statusText" : err.message});
             //throw err;

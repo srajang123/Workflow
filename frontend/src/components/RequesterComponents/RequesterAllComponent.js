@@ -1,49 +1,45 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import axios from "axios";
-import Cookies from "js-cookie";
+
 import ViewRequest from '../ViewRequestComponent';
 import RequesterHeader from './RequesterHeaderComponent';
 
-const RequesterAllRequest = () => {
+import Cookies from 'js-cookie';
+import axios from 'axios';
 
-    const [requesterRequestData, setRequesterRequestData] = useState([]);
+class RequesterAllRequest extends Component {
 
-    const fetchData = async () => {
-
-        let activeUser = Cookies.getJSON("activeUser");
-        axios.get('https://localhost:5000/requesterAll?mail:'+activeUser.mail)
-        .then((response) => {
-            setRequesterRequestData(response);
-        })
-        .catch((error) => {
-            console.log(error)
-        });
+    constructor(props) {
+        super(props);
+        this.fetchData = this.fetchData.bind(this);
     }
 
-    useEffect(()=> {
-        fetchData();
-    },[]);
+    async fetchData() {
+        let activeUser = await Cookies.getJSON("activeUser");
+        const allRequests = await axios.get("http://localhost:5000/all/requester/"+activeUser.mail);
+        return allRequests.data;    
+    }
 
-
-    return (
-        <Fragment>
-            <RequesterHeader />
-            <div className="container">
-                <div className="row">
-                    <Breadcrumb>
-                        <BreadcrumbItem><Link to ="/requester"><i className="fa fa-user fa-sm"></i> Requester</Link></BreadcrumbItem>
-                        <BreadcrumbItem active>All Request</BreadcrumbItem>
-                    </Breadcrumb>
-                    <div className="col-12">
-                        <h3>All Request</h3>
-                        <hr />
+    render() {
+        return (
+            <Fragment>
+                <RequesterHeader />
+                <div className="container">
+                    <div className="row">
+                        <Breadcrumb>
+                            <BreadcrumbItem><Link to ="/requester"><i className="fa fa-user fa-sm"></i> Requester</Link></BreadcrumbItem>
+                            <BreadcrumbItem active>All Request</BreadcrumbItem>
+                        </Breadcrumb>
+                        <div className="col-12">
+                            <h3>All Request</h3>
+                            <hr />
+                        </div>
                     </div>
+                    <ViewRequest data = {this.fetchData()} role = "requester"/>
                 </div>
-                <ViewRequest data = {requesterRequestData}/>
-            </div>
-        </Fragment>
-    );
+            </Fragment>
+        );
+    }
 }
 export default RequesterAllRequest;

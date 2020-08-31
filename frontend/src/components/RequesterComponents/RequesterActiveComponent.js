@@ -6,21 +6,19 @@ import ViewRequest from '../ViewRequestComponent';
 import RequesterHeader from './RequesterHeaderComponent';
 
 import Cookies from 'js-cookie';
+import axios from 'axios';
 
 class RequesterActiveRequest extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            activeRequest : undefined,
-            activeUser : ""
-        }
+        this.fetchData = this.fetchData.bind(this);
     }
 
-    componentDidMount() {
-        let activeUser = Cookies.getJSON("activeUser");
-        // Fetch active request for activeUser user
-        
+    async fetchData() {
+        let activeUser = await Cookies.getJSON("activeUser");
+        const allRequests = await axios.get("http://localhost:5000/active/requester/"+activeUser.mail);
+        return allRequests.data;    
     }
 
     render() {
@@ -38,7 +36,7 @@ class RequesterActiveRequest extends Component {
                             <hr />
                         </div>
                     </div>
-                    <ViewRequest />
+                    <ViewRequest data = {this.fetchData()} role = "requester"/>
                 </div>
             </Fragment>
         );
