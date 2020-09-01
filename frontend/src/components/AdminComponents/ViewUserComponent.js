@@ -1,9 +1,10 @@
 import React, { Component, Fragment } from 'react';
-import { Spinner, Row, Col, Card, CardHeader, Breadcrumb, BreadcrumbItem,
-    CardBody, CardText ,ListGroup, ListGroupItem, Button
-    } from 'reactstrap';
+import {
+    Spinner, Row, Col, Card, CardHeader, Breadcrumb, BreadcrumbItem,
+    CardBody, CardText, ListGroup, ListGroupItem, Button
+} from 'reactstrap';
 
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import AdminHeader from './AdminHeaderComponent';
 import axios from 'axios';
@@ -12,30 +13,12 @@ class SingleCardBody extends Component {
 
     constructor(props) {
         super(props);
-        // this.delete = this.delete.bind(this);
-        // this.switch = this.switch.bind(this);
         this.state = {
-            button : false
+            button: false
         }
     }
-    // delete() {
-    //     axios.post("http://localhost:5000/admin/delete",{
-    //         id : this.props.item.user_id
-    //     }).then((response) => {
-    //         alert("USER DELETED SUCCESSFULLY!");
-    //         this.setState({
-    //             button : true
-    //         })
-    //     })
-    //     .catch((err) => {
-    //         alert("Error Occured");
-    //     });
-    // }
-    // switch() {
-
-    // }
-    render(){
-        return(
+    render() {
+        return (
             <Card body>
                 <CardHeader tag="h6">User ID - #{this.props.item.user_id} {this.props.item.status}</CardHeader>
                 <CardBody>
@@ -46,8 +29,6 @@ class SingleCardBody extends Component {
                             <ListGroupItem color="info">Email : {this.props.item.email}</ListGroupItem>
                         </ListGroup>
                     </CardText>
-                    {/* <Button onClick={() => {this.delete(this.props.item)}} color="danger" disabled={this.state.button}>Delete</Button>{' '}
-                    <Button onClick={() => {this.switch(this.props.item)}} color="warning">{this.props.item.status==="active" ? "Deactivate" : "Activate"}</Button> */}
                 </CardBody>
             </Card>
         );
@@ -59,53 +40,49 @@ class ViewUser extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data : "",
-            toggle : false,
+            data: "",
+            toggle: false,
         }
     }
 
     async componentDidMount() {
         axios.get("http://localhost:5000/admin/get").then((response) => {
             this.setState({
-                data : response.data.data
+                data: response.data.data
             })
         })
-        .catch((err) => {
-            console.log(err);
-        });
+            .catch((err) => {
+                console.log(err);
+            });
     }
-    
+
 
     render() {
         let cards = [];
-        if(this.state.data==="") {
+        if (this.state.data === "") {
             cards.push(<Spinner style={{ width: '3rem', height: '3rem' }} />)
         }
         else {
-            for(let i=0;i<this.state.data.length-1;i+=2) {
-                
+            for (let i = 0; i < this.state.data.length - 1; i += 2) {
                 let item1 = this.state.data[i];
-                let item2 = this.state.data[i+1];    
-                console.log(item1);
-                console.log(item2);
+                let item2 = this.state.data[i + 1];
                 cards.push(
                     <Row>
                         <Col md={6}>
-                            <SingleCardBody item = {item1}/>
+                            <SingleCardBody item={item1} />
                         </Col>
                         <Col md={6}>
-                            <SingleCardBody item = {item2}/>
+                            <SingleCardBody item={item2} />
                         </Col>
-                    </Row>    
-                ) 
+                    </Row>
+                )
             }
-            if(this.state.data.length%2){
-                let item = this.state.data[this.state.data.length-1];
-                console.log(item);
+            if (this.state.data.length % 2) {
+                let item = this.state.data[this.state.data.length - 1];
                 cards.push(
                     <Row>
                         <Col md={6}>
-                            <SingleCardBody item = {item} />
+                            <SingleCardBody item={item} />
                         </Col>
                     </Row>
                 )
@@ -117,7 +94,7 @@ class ViewUser extends Component {
                 <div className="container">
                     <div className="row">
                         <Breadcrumb>
-                            <BreadcrumbItem><Link to ="/admin"><i className="fa fa-user fa-sm"></i> Admin</Link></BreadcrumbItem>
+                            <BreadcrumbItem><Link to="/admin"><i className="fa fa-user fa-sm"></i> Admin</Link></BreadcrumbItem>
                             <BreadcrumbItem active>All Users</BreadcrumbItem>
                         </Breadcrumb>
                         <div className="col-12">
