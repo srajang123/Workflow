@@ -4,10 +4,6 @@ const db = require('../util/database');
 const mailSend = require('../util/mail');
 router = express.Router();
 
-createID = (callback) => {
-    
-}
-
 router.post('/create', (req, res, next) => {
     const { fname, lname, mail, role } = req.body;
 
@@ -67,44 +63,75 @@ router.post('/create', (req, res, next) => {
     });
 });
 
-router.post('/delete', (req, res, next) => {
-    const { id } = req.body;
-    db.query('DELETE FROM ROLE_STATUS WHERE USER_ID=$1', [id], (err, rest) => {
-        if (err) {
-            res.send({ status: -1 });
-            throw err;
-        } else {
-            db.query('DELETE FROM ROLE WHERE USER_ID=$1', [id], (err, rest) => {
-                if (err) {
-                    res.send({ status: -1 });
-                    throw err;
-                }
-                res.send({ status: 1 });
-            })
-        }
+// router.post('/delete', (req, res, next) => {
+//     const { id } = req.body;
 
-    })
-});
+//     db.query('SELECT * FROM REQUEST NATURAL JOIN REQUEST_STATUS WHERE (REQUESTER_ID=$1 OR APPROVER_ID=$1) AND STATUS!=$2', [id,'active'], (err, userData) => {
+//         if(err) {
+//             console.log("Status Code: 403"); //Error Occured
+//             res.status(403).json({"statusText" : "Error Occured"});
+//         } else {
+//             if(userData.rows.length==0) {
+//                 db.query('DELETE FROM ROLE_STATUS WHERE USER_ID=$1', [id], (err, rest) => {
+//                     if (err) {
+//                         console.log("Status Code: 403"); //Error Occured
+//                         res.status(403).json({"statusText" : "Error Occured"});
+//                     } else {
+//                         db.query('DELETE FROM ROLE WHERE USER_ID=$1', [id], (err, rest) => {
+//                             if (err) {
+//                                 db.query('INSERT INTO ROLE_STATUS VALUES($1,$2)', [id,'active'], (err, rest) => {
+//                                     if(err) {
+//                                         console.log("Status Code: 403"); //Error Occured
+//                                         res.status(403).json({"statusText" : "Error Occured"});
+//                                     } else {
+//                                         console.log("Status Code: 403"); //Error Occured
+//                                         res.status(403).json({"statusText" : "Error Occured"});
+//                                     }
+//                                 })
+//                             } else {
+//                                 console.log("Status Code: 201"); //User Deleted
+//                                 res.status(201).json({"statusText" : "User Deleted Successfully"});
+//                             }
+//                         })
+//                     }        
+//                 })
+//             } else {
+//                 console.log("Status Code: 403"); //User Deleted
+//                 res.status(403).json({"statusText" : "User have some active requests"});
+//             }
+//         }
+//     })
+// });
 
 router.get('/get', (req, res, next) => {
     db.query('SELECT * FROM ROLE NATURAL JOIN ROLE_STATUS', (err, data) => {
-        if (err) {
+        if (err) { 
             res.send({ status: -1 });
             throw err;
         }
         res.send({ status: 1, data: data.rows });
     })
 });
-router.get('/switch/:id', (req, res, next) => {
-    const { id } = req.params;
-    db.query("UPDATE ROLE_STATUS SET STATUS='inactive' WHERE USER_ID=$1", [id], (err, rest) => {
-        if (err) {
-            res.send({ status: -1 });
-            throw err;
-        }
-        res.send({ status: 1 });
-    })
-});
+// router.get('/switch/:id/:status', (req, res, next) => {
+//     const { id, status } = req.params;
+//     if(status==="active") {
+//         db.query("UPDATE ROLE_STATUS SET STATUS='inactive' WHERE USER_ID=$1", [id], (err, rest) => {
+//             if (err) {
+//                 res.send({ status: -1 });
+//                 throw err;
+//             }
+//             res.send({ status: 1 });
+//         })
+//     } else {
+//         db.query("UPDATE ROLE_STATUS SET STATUS='active' WHERE USER_ID=$1", [id], (err, rest) => {
+//             if (err) {
+//                 res.send({ status: -1 });
+//                 throw err;
+//             }
+//             res.send({ status: 1 });
+//         })
+//     }
+// });
 /* Status Codes
 -1: unsuccessful
 1: succeessful

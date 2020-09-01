@@ -64,7 +64,7 @@ router.post('/new', (req, res, next) => {
                                     res.status(500).json({"statusText" : "Internal Server Error"});
                                 } else {
                                     console.log(res3);
-                                    res.status(200).json({"statusText" : "Request Submitted Succefully"}).end();        
+                                    res.status(200).json({"statusText" : "Request Submitted Successfully"}).end();        
                                 }
                             });
                         }

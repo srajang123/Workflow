@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { Spinner, Row, Col, Card, CardHeader, Breadcrumb, BreadcrumbItem,
-    CardBody, CardText ,ListGroup, ListGroupItem, 
+    CardBody, CardText ,ListGroup, ListGroupItem, Button
     } from 'reactstrap';
 
 import {Link} from 'react-router-dom';
@@ -8,21 +8,50 @@ import {Link} from 'react-router-dom';
 import AdminHeader from './AdminHeaderComponent';
 import axios from 'axios';
 
-function SingleCardBody(props) {
-    return(
-        <Card body>
-            <CardHeader tag="h6">User ID - #{props.item.user_id} {props.item.status}</CardHeader>
-            <CardBody>
-                <CardText>
-                    <ListGroup>
-                        <ListGroupItem color="info">Name : {props.item.fname} {props.item.lname}</ListGroupItem>
-                        <ListGroupItem color="info">Role : {props.item.role}</ListGroupItem>
-                        <ListGroupItem color="info">Email : {props.item.email}</ListGroupItem>
-                    </ListGroup>
-                </CardText>
-            </CardBody>
-        </Card>
-    );
+class SingleCardBody extends Component {
+
+    constructor(props) {
+        super(props);
+        // this.delete = this.delete.bind(this);
+        // this.switch = this.switch.bind(this);
+        this.state = {
+            button : false
+        }
+    }
+    // delete() {
+    //     axios.post("http://localhost:5000/admin/delete",{
+    //         id : this.props.item.user_id
+    //     }).then((response) => {
+    //         alert("USER DELETED SUCCESSFULLY!");
+    //         this.setState({
+    //             button : true
+    //         })
+    //     })
+    //     .catch((err) => {
+    //         alert("Error Occured");
+    //     });
+    // }
+    // switch() {
+
+    // }
+    render(){
+        return(
+            <Card body>
+                <CardHeader tag="h6">User ID - #{this.props.item.user_id} {this.props.item.status}</CardHeader>
+                <CardBody>
+                    <CardText>
+                        <ListGroup>
+                            <ListGroupItem color="info">Name : {this.props.item.fname} {this.props.item.lname}</ListGroupItem>
+                            <ListGroupItem color="info">Role : {this.props.item.role}</ListGroupItem>
+                            <ListGroupItem color="info">Email : {this.props.item.email}</ListGroupItem>
+                        </ListGroup>
+                    </CardText>
+                    {/* <Button onClick={() => {this.delete(this.props.item)}} color="danger" disabled={this.state.button}>Delete</Button>{' '}
+                    <Button onClick={() => {this.switch(this.props.item)}} color="warning">{this.props.item.status==="active" ? "Deactivate" : "Activate"}</Button> */}
+                </CardBody>
+            </Card>
+        );
+    }
 }
 
 
