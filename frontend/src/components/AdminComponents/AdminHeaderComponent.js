@@ -51,9 +51,9 @@ class AdminHeader extends Component {
                           <NavItem style={{margin : 10}}>
                           <Link to="/admin/add"><i className="fa fa-plus-circle fa-sm"></i>  Add</Link>
                           </NavItem>
-                          <NavItem style={{margin : 10}}>
+                          {/* <NavItem style={{margin : 10}}>
                           <Link to="/admin/update"><i className="fa fa-edit fa-sm"></i>  Update</Link>
-                          </NavItem>
+                          </NavItem> */}
                           <NavItem style={{margin : 10}}>
                           <Link to="/admin/view"><i className="fa fa-eye fa-sm"></i>  View</Link>
                           </NavItem>

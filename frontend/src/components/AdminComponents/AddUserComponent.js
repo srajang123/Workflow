@@ -1,18 +1,111 @@
 import React, { Component,Fragment } from 'react';
-import { Breadcrumb, BreadcrumbItem,
-    Button, Row, Col, Label } from 'reactstrap';
+import { Breadcrumb, BreadcrumbItem, Button, Col, Label, Form, FormGroup, Input, Row} from 'reactstrap';
 import { Link } from 'react-router-dom';
-import { Control, LocalForm, Errors } from 'react-redux-form';
 
 import AdminHeader from './AdminHeaderComponent';
 
-// validations
-const required = (val) => val && val.length;
-const minLength = (len) => (val) => (val)  && (val.length >= len);
-const validEmail = (val) => /^[A-Z0-9._%+a-z]+@[A-Z0-9a-z.-]+\.[A-Z]{2,4}$/i.test(val);
+import Cookies from "js-cookie";
+
+import axios from "axios"
 
 class AddUser extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            firstName : "",
+            lastName : "",
+            mail : "",
+            role : "NA",
+            submit : "",
+            touched : {
+               firstName : false,
+               lastName : false,
+               mail : false,
+               role : false 
+            }
+        }
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleBlur = this.handleBlur.bind(this);
+    }
+
+    handleInputChange(event) {
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
+        this.setState({
+            [name] : value,
+        });
+    }
+
+    handleBlur = (field) => (evt) => {
+        this.setState({
+            touched : { ...this.state.touched, [field] : true }
+        })
+    }
+
+    validateState() {
+        const errors = {
+            firstName : "",
+            lastName: "",
+            mail : "",
+            role : "",
+            submit : ""
+        };
+        if(this.state.touched.firstName && this.state.firstName==="")errors.firstName = "This is required field";
+        if(this.state.touched.lastName && this.state.lastName==="")errors.lastName = "This is required field";
+        if(this.state.touched.role && this.state.role==="NA")errors.role = "This is required field";
+        var mailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        if(this.state.touched.mail && !mailPattern.test(this.state.mail)) {
+            errors.mail = "Please enter valid email addressed";
+        }
+        return errors;
+    }
+
+    handleSubmit = async (event) => {
+        
+        event.preventDefault();
+        const errors = this.validateState();
+            
+        if(this.state.touched.firstName && this.state.touched.lastName && this.state.touched.role && this.state.touched.mail && errors.firstName==="" && errors.lastName==="" && errors.mail==="" && errors.role==="") {
+            
+            
+
+            if(!window.confirm("Are you sure?"))return;
+            this.setState({
+                submit : ""
+            });
+            axios.post("http://localhost:5000/admin/create",{
+                fname : this.state.firstName,
+                lname : this.state.lastName,
+                mail : this.state.mail,
+                role : this.state.role
+            }).then((response) => {
+                this.setState({
+                    submit : "User Created Successfully"
+                });
+            }).catch((err) => {
+                console.log(err);
+                this.setState({
+                    submit : "Error Occured"
+                })
+            });
+            console.log(this.state);
+
+        } else {
+            this.setState({
+                submit : "Fill the form correctly"    
+            });
+        }
+    }
     render() {
+        const errors = this.validateState();
+        const feedback = {
+            color : 'red',
+            fontSize : '12px',
+            margin : 2
+        }
+        
         return (
             <Fragment>
                 <AdminHeader />
@@ -20,71 +113,83 @@ class AddUser extends Component {
                     <div className="row">
                         <Breadcrumb>
                             <BreadcrumbItem><Link to ="/admin"><i className="fa fa-user fa-sm"></i> Admin</Link></BreadcrumbItem>
-                            <BreadcrumbItem active>Add User</BreadcrumbItem>
+                            <BreadcrumbItem active>Create User</BreadcrumbItem>
                         </Breadcrumb>
                         <div className="col-12">
-                            <h3>Add User</h3>
+                            <h3>Create User</h3>
                             <hr />
                         </div>
                     </div>
-                    <div className="row row-content">
-                        <div className="col-12 col-md-9">
-                            <LocalForm onSubmit = {(values) => this.handleSubmit(values)}>
-                                <Row className="form-group">
-                                    <Label htmlFor="email" md={2}>
-                                        Email<span style={{color : "red"}}> *</span>
-                                    </Label>
-                                    <Col md={10}>
-                                        <Control.text
-                                            model=".email" id="email" name="email"
-                                            placeholder="email" className="form-control"
-                                            validators = {{
-                                                required, validEmail
-                                            }}
-                                            autoComplete = "off"
-                                            />
-                                            <Errors 
-                                                className="text-danger"
-                                                model=".email"
-                                                show="touched"
-                                                messages={{
-                                                    required : "Required Field ",
-                                                    validEmail : "Invalid Email Address"
-                                                }} />
-                                                
-                                    </Col>
-                                </Row>
-                                <Row className="form-group">
-                                    <Label htmlFor="password" md={2}>
-                                        Password<span style={{color : "red"}}> *</span>
-                                    </Label>
-                                    <Col md={10}>
-                                        <Control.text
-                                            model=".password" id="password" name="password"
-                                            placeholder="password" className="form-control" 
-                                            validators = {{
-                                                required, minLength : minLength(9)
-                                            }}
-                                            autoComplete = "off"
-                                            />
-                                        <Errors 
-                                                className="text-danger"
-                                                model=".password"
-                                                show="touched"
-                                                messages={{
-                                                    required : "Required Field ",
-                                                    minLength : "Password must be atleast 9 characters long"
-                                                }} />
-                                    </Col>
-                                </Row>
-                                <Row className="form-group">
-                                    <Col md={{size:10, offset:2}}>
-                                        <Button type="submit" color="primary">
-                                            Login
-                                        </Button>
-                                    </Col>
-                                </Row>
-                            </LocalForm>
+                    <div className="container" style={{marginLeft : 10, marginTop : 30}}>
+                        <div className="row">
+                            <div className="col">
+                                <Form onSubmit={this.handleSubmit} autoComplete="off">
+                                    <Row form>
+                                        <Col md={6}>
+                                            <FormGroup>
+                                                <Label for="firstName">First Name<span style={{color:'red'}}> *</span></Label>
+                                                <Input type="text" name="firstName" id="firstName"
+                                                    value={this.state.firstName}
+                                                    onBlur = {this.handleBlur('firstName')}
+                                                    onChange={this.handleInputChange}
+                                                    placeholder = "first name"
+                                                />
+                                                <p style={feedback}>{errors.firstName}</p>
+                                            </FormGroup>
+                                        </Col>
+                                        <Col md={6}>
+                                            <FormGroup>
+                                                <Label for="lastName">Last Name<span style={{color:'red'}}> *</span></Label>
+                                                <Input type="text" name="lastName" id="lastName"
+                                                    value={this.state.lastName}
+                                                    onBlur = {this.handleBlur('lastName')}
+                                                    onChange={this.handleInputChange} 
+                                                    placeholder = "last name"
+                                                />
+                                                <p style={feedback}>{errors.lastName}</p>
+                                            </FormGroup>
+                                        </Col>
+                                    </Row>
+                                    <Row form>
+                                        <Col md={6}>
+                                            <FormGroup>
+                                                <Label for="role">Role<span style={{color:'red'}}> *</span></Label>
+                                                <Input type="select" name="role" id="role"
+                                                value={this.state.role}
+                                                onBlur = {this.handleBlur('role')}
+                                                onChange={this.handleInputChange} 
+                                                >
+                                                <option>NA</option>
+                                                <option>admin</option>
+                                                <option>requester</option>
+                                                <option>approver</option>
+                                                </Input>
+                                                <p style={feedback}>{errors.role}</p>
+                                            </FormGroup>
+                                        </Col>
+                                        <Col md={6}>
+                                            <FormGroup>
+                                                <Label for="mail">Email<span style={{color:'red'}}> *</span></Label>
+                                                <Input type="email" name="mail" id="mail"
+                                                    value={this.state.mail}
+                                                    onBlur = {this.handleBlur('mail')}
+                                                    onChange={this.handleInputChange} 
+                                                    placeholder = "email"
+                                                />
+                                                <p style={feedback}>{errors.mail}</p>
+                                            </FormGroup>
+                                        </Col>
+                                    </Row>
+                                    <FormGroup row>
+                                        <Col style={{marginTop : 20}}>
+                                            <Button type="submit" color="primary">
+                                                Create User
+                                            </Button>
+                                            <p style={feedback}>{this.state.submit}</p>
+                                        </Col>
+                                    </FormGroup>
+                                </Form>
+                            </div>
                         </div>
                     </div>
                 </div>
