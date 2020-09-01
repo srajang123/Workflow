@@ -1,11 +1,87 @@
 import React, { Component, Fragment } from 'react';
-import { Breadcrumb, BreadcrumbItem, Table } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Spinner, Row, Col, Card, CardHeader, Breadcrumb, BreadcrumbItem,
+    CardBody, CardText ,ListGroup, ListGroupItem, 
+    } from 'reactstrap';
+
+import {Link} from 'react-router-dom';
 
 import AdminHeader from './AdminHeaderComponent';
+import axios from 'axios';
+
+function SingleCardBody(props) {
+    return(
+        <Card body>
+            <CardHeader tag="h6">User ID - #{props.item.user_id} {props.item.status}</CardHeader>
+            <CardBody>
+                <CardText>
+                    <ListGroup>
+                        <ListGroupItem color="info">Name : {props.item.fname} {props.item.lname}</ListGroupItem>
+                        <ListGroupItem color="info">Role : {props.item.role}</ListGroupItem>
+                        <ListGroupItem color="info">Email : {props.item.email}</ListGroupItem>
+                    </ListGroup>
+                </CardText>
+            </CardBody>
+        </Card>
+    );
+}
+
 
 class ViewUser extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            data : "",
+            toggle : false,
+        }
+    }
+
+    async componentDidMount() {
+        axios.get("http://localhost:5000/admin/get").then((response) => {
+            this.setState({
+                data : response.data.data
+            })
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    }
+    
+
     render() {
+        let cards = [];
+        if(this.state.data==="") {
+            cards.push(<Spinner style={{ width: '3rem', height: '3rem' }} />)
+        }
+        else {
+            for(let i=0;i<this.state.data.length-1;i+=2) {
+                
+                let item1 = this.state.data[i];
+                let item2 = this.state.data[i+1];    
+                console.log(item1);
+                console.log(item2);
+                cards.push(
+                    <Row>
+                        <Col md={6}>
+                            <SingleCardBody item = {item1}/>
+                        </Col>
+                        <Col md={6}>
+                            <SingleCardBody item = {item2}/>
+                        </Col>
+                    </Row>    
+                ) 
+            }
+            if(this.state.data.length%2){
+                let item = this.state.data[this.state.data.length-1];
+                console.log(item);
+                cards.push(
+                    <Row>
+                        <Col md={6}>
+                            <SingleCardBody item = {item} />
+                        </Col>
+                    </Row>
+                )
+            }
+        }
         return (
             <Fragment>
                 <AdminHeader />
@@ -13,50 +89,14 @@ class ViewUser extends Component {
                     <div className="row">
                         <Breadcrumb>
                             <BreadcrumbItem><Link to ="/admin"><i className="fa fa-user fa-sm"></i> Admin</Link></BreadcrumbItem>
-                            <BreadcrumbItem active>View Users</BreadcrumbItem>
+                            <BreadcrumbItem active>All Users</BreadcrumbItem>
                         </Breadcrumb>
                         <div className="col-12">
-                            <h3>View User</h3>
+                            <h3>All Users</h3>
                             <hr />
                         </div>
                     </div>
-                    <div className="row row-content">
-                        <div className="col-12 col-md-9">
-                            <Table hover>
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>User ID</th>
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
-                                        <th>Email</th>
-                                        <th>Role</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>1871923</td>
-                                        <td>Mann</td>
-                                        <td>Mehta</td>
-                                        <td>mehta.m1@tcs.com</td>
-                                        <td>Requester</td>
-                                        <td>Active</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>1923192</td>
-                                        <td>xyz</td>
-                                        <td>pqr</td>
-                                        <td>a@b.in</td>
-                                        <td>Approver</td>
-                                        <td>Active</td>
-                                    </tr>
-                                </tbody>
-                            </Table>
-                        </div>
-                    </div>
+                    {cards}
                 </div>
             </Fragment>
         );

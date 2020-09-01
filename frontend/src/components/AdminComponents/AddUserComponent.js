@@ -85,8 +85,9 @@ class AddUser extends Component {
                     submit : "User Created Successfully"
                 });
             }).catch((err) => {
+                console.log(err);
                 this.setState({
-                    submit : "Server Error"
+                    submit : "Error Occured"
                 })
             });
             console.log(this.state);
