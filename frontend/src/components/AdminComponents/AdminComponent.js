@@ -15,7 +15,7 @@ function Admin() {
                         <BreadcrumbItem active> Admin</BreadcrumbItem>
                     </Breadcrumb>
                     <div className="col-12">
-                        <h3>Login</h3>
+                        <h3>Admin Dashboard</h3>
                         <hr />
                     </div>
                 </div>
@@ -26,15 +26,15 @@ function Admin() {
                                 <h1>Welcome.. Admin</h1>
                                 <p>
                                     Admin can manage users through<br />
-                  view, edit, delete, activate, deactivate rights on users.
-                </p>
+                                    Add and View (Users)
+                                </p>
                             </div>
                         </div>
                     </div>
                 </Jumbotron>
                 <div className="container">
                     <div className="row">
-                        <h1>Admin Page</h1>
+                        {/* <h1>Admin Page</h1> */}
                     </div>
                 </div>
             </div>

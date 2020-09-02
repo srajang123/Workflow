@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Breadcrumb, BreadcrumbItem, Col, Label, Form, FormGroup, Input, Button } from 'reactstrap';
+import { Spinner, Breadcrumb, BreadcrumbItem, Col, Label, Form, FormGroup, Input, Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 import HeaderComponent from './HeaderComponent';
@@ -18,7 +18,8 @@ class Login extends Component {
             touched: {
                 email: false,
                 password: false
-            }
+            },
+            loading: false
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -69,6 +70,10 @@ class Login extends Component {
 
     handleSubmit = async (event) => {
         event.preventDefault();
+        this.setState({
+            loginStatus: "",
+            loading: false
+        })
 
         var clientSideVerification = this.state.touched.email && this.state.touched.password;
 
@@ -83,6 +88,9 @@ class Login extends Component {
             if (!window.confirm("Are you sure?")) return;
 
             console.log(this.state.email, this.state.password);
+            this.setState({
+                loading: true
+            });
 
             axios.post('http://localhost:5000/login', {
                 mail: this.state.email,
@@ -97,7 +105,9 @@ class Login extends Component {
                         role: response.data.role,
                         mail: response.data.mail,
                     }, { expires: 1 });
-
+                    this.setState({
+                        loading: false
+                    });
                     if (role === "admin") history.push("/admin");
                     else if (role === "requester") history.push("/requester");
                     else if (role === "approver") history.push("/approver");
@@ -105,7 +115,8 @@ class Login extends Component {
                 })
                 .catch((error) => {
                     this.setState({
-                        loginStatus: "login failed"
+                        loginStatus: "login failed",
+                        loading: false
                     });
                 });
         } else {
@@ -123,6 +134,11 @@ class Login extends Component {
             color: 'red',
             fontSize: '12px',
             margin: 2
+        }
+
+        let loader = [];
+        if (this.state.loading) {
+            loader.push(<Spinner style={{ width: '2rem', height: '2rem' }} />);
         }
 
         return (
@@ -172,7 +188,8 @@ class Login extends Component {
                                             <Button type="submit" color="primary">
                                                 login
                                             </Button>
-                                            <p style={feedback}>{this.state.loginStatus}</p>
+                                            <p style={feedback}>{this.state.loginStatus}</p><br />
+                                            {loader}
                                         </Col>
                                     </FormGroup>
 

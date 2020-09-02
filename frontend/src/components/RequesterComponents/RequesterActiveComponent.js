@@ -17,8 +17,8 @@ class RequesterActiveRequest extends Component {
 
     async fetchData() {
         let activeUser = await Cookies.getJSON("activeUser");
-        const activeRequests = await axios.get("http://localhost:5000/active/requester/"+activeUser.mail);
-        return activeRequests.data;    
+        const activeRequests = await axios.get("http://localhost:5000/active/requester/" + activeUser.mail);
+        return activeRequests.data;
     }
 
     render() {
@@ -28,7 +28,7 @@ class RequesterActiveRequest extends Component {
                 <div className="container">
                     <div className="row">
                         <Breadcrumb>
-                            <BreadcrumbItem><Link to ="/requester"><i className="fa fa-user fa-sm"></i> Requester</Link></BreadcrumbItem>
+                            <BreadcrumbItem><Link to="/requester"><i className="fa fa-user fa-sm"></i> Requester</Link></BreadcrumbItem>
                             <BreadcrumbItem active>Active Request</BreadcrumbItem>
                         </Breadcrumb>
                         <div className="col-12">
@@ -36,7 +36,7 @@ class RequesterActiveRequest extends Component {
                             <hr />
                         </div>
                     </div>
-                    <ViewRequest data = {this.fetchData()} role = "requester" all = {false} />
+                    <ViewRequest data={this.fetchData()} role="requester" all={false} />
                 </div>
             </Fragment>
         );

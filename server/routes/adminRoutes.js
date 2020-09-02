@@ -66,7 +66,7 @@ router.get('/get', (req, res, next) => {
             res.status(500).json({ "statusText": "Internal Server Error" });
         } else {
             console.log("Status Code: 200"); //Data Successfully Fetched
-            res.status(200).json({data : data.rows});
+            res.status(200).json({ data: data.rows });
         }
     })
 });

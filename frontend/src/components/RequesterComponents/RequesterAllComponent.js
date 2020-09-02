@@ -17,8 +17,8 @@ class RequesterAllRequest extends Component {
 
     async fetchData() {
         let activeUser = await Cookies.getJSON("activeUser");
-        const allRequests = await axios.get("http://localhost:5000/all/requester/"+activeUser.mail);
-        return allRequests.data;    
+        const allRequests = await axios.get("http://localhost:5000/all/requester/" + activeUser.mail);
+        return allRequests.data;
     }
 
     render() {
@@ -28,7 +28,7 @@ class RequesterAllRequest extends Component {
                 <div className="container">
                     <div className="row">
                         <Breadcrumb>
-                            <BreadcrumbItem><Link to ="/requester"><i className="fa fa-user fa-sm"></i> Requester</Link></BreadcrumbItem>
+                            <BreadcrumbItem><Link to="/requester"><i className="fa fa-user fa-sm"></i> Requester</Link></BreadcrumbItem>
                             <BreadcrumbItem active>All Request</BreadcrumbItem>
                         </Breadcrumb>
                         <div className="col-12">
@@ -36,7 +36,7 @@ class RequesterAllRequest extends Component {
                             <hr />
                         </div>
                     </div>
-                    <ViewRequest data = {this.fetchData()} role = "requester" all = {false}/>
+                    <ViewRequest data={this.fetchData()} role="requester" all={false} />
                 </div>
             </Fragment>
         );

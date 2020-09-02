@@ -94,8 +94,8 @@ class HomeHeader extends Component {
                         <NavbarBrand>
                             Product Sample Approval Workflow
                         </NavbarBrand>
-                        <NavbarToggler onClick={this.state.toggle} />
-                        <Collapse isOpen={this.state.isOpensOpen} navbar>
+                        <NavbarToggler onClick={this.toggle} />
+                        <Collapse isOpen={this.state.isOpen} navbar>
                             {action}
                             <NavbarText>TCS PROJECT</NavbarText>
                         </Collapse>

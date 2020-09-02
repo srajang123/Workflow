@@ -195,6 +195,9 @@ class ViewRequest extends Component {
                     </Row>
                 )
             }
+            if(cards.length===0) {
+                cards.push(<h6>No Request Fetched !</h6>);
+            }
         }
 
         return (

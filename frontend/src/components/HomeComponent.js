@@ -24,7 +24,7 @@ function Home() {
             </Jumbotron>
             <div className="container">
                 <div className="row">
-                    <h1>Home Page</h1>
+                    {/* <h1>Home Page</h1> */}
                 </div>
             </div>
         </Fragment>
