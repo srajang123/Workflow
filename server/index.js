@@ -13,6 +13,9 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
 
+
+
+
 const loginRoutes = require('./routes/loginRoutes');
 const schemaRoutes = require('./routes/schema');
 const adminRoutes = require('./routes/adminRoutes');
@@ -28,5 +31,9 @@ app.use(products);
 app.use(approverRoutes);
 app.use(requesterRoutes);
 app.use(requests);
+
+app.get('/*',function(req,res){
+    res.sendFile(path.join(__dirname,"../frontend",'build','index.html'));
+});
 
 app.listen(PORT, console.log(`App running at PORT ${PORT}`));
