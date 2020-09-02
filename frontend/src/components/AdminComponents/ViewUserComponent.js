@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import {
     Spinner, Row, Col, Card, CardHeader, Breadcrumb, BreadcrumbItem,
-    CardBody, CardText, ListGroup, ListGroupItem, Button
+    CardBody, CardText, ListGroup, ListGroupItem
 } from 'reactstrap';
 
 import { Link } from 'react-router-dom';
@@ -46,11 +46,12 @@ class ViewUser extends Component {
     }
 
     async componentDidMount() {
-        axios.get("http://localhost:5000/admin/get").then((response) => {
-            this.setState({
-                data: response.data.data
+        axios.get("http://localhost:5000/admin/get")
+            .then((response) => {
+                this.setState({
+                    data: response.data.data
+                })
             })
-        })
             .catch((err) => {
                 console.log(err);
             });
