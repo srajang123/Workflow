@@ -14,7 +14,8 @@ class SingleCardBody extends Component {
             modal: false,
             approverNote: "",
             error: "",
-            disable: false
+            disable: false,
+            loading : false
         }
         this.toggle = this.toggle.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -43,7 +44,9 @@ class SingleCardBody extends Component {
                 error: "Review note is required field"
             });
         } else {
-
+            this.setState({
+                loading : true
+            })
             axios.post('http://localhost:5000/approver/request/action', {
                 status: "approved",
                 requestId: request.request_id,
@@ -52,12 +55,14 @@ class SingleCardBody extends Component {
                 .then((response) => {
                     this.setState({
                         error: "Request Approved",
-                        disable: true
+                        disable: true,
+                        loading : false
                     });
                 })
                 .catch((error) => {
                     this.setState({
-                        error: "Server Error"
+                        error: "Server Error",
+                        loading : false
                     });
                 });
         }
@@ -70,6 +75,9 @@ class SingleCardBody extends Component {
                 error: "Review note is required field",
             });
         } else {
+            this.setState({
+                loading : true
+            })
             axios.post('http://localhost:5000/approver/request/action', {
                 status: "rejected",
                 requestId: request.request_id,
@@ -78,18 +86,28 @@ class SingleCardBody extends Component {
                 .then((response) => {
                     this.setState({
                         error: "Request Rejected",
-                        disable: true
+                        disable: true,
+                        loading : false
                     });
                 })
                 .catch((error) => {
                     this.setState({
-                        error: "Server Error"
+                        error: "Server Error",
+                        loading : false
                     });
                 });
         }
     }
 
     render() {
+        let feedback = [];
+
+        if(this.state.loading) 
+            feedback.push(<Spinner style={{ width: '2rem', height: '2rem' }} />);
+        else 
+            feedback.push(<p><span span style={this.state.error === "Request Approved" || this.state.error === "Request Rejected" ? { color: 'green' } : { color: 'red' }}>{this.state.error}</span></p>);
+        
+
         return (
             <Col sm="6">
                 <Card body>
@@ -112,7 +130,7 @@ class SingleCardBody extends Component {
                 <Modal isOpen={this.state.modal} toggle={this.state.toggle} backdrop="static" keyboard={true}>
                     <ModalHeader toggle={this.state.toggle}>Request ID - #{this.props.item.request_id}</ModalHeader>
                     <ModalBody>
-                        <Label for="approverNote"><h6>Review Note - <span style={{ color: 'red' }}> *</span></h6><p><span span style={this.state.error === "Request Approved" || this.state.error === "Request Approved" ? { color: 'green' } : { color: 'red' }}>{this.state.error}</span></p></Label>
+                        <Label for="approverNote"><h6>Review Note - <span style={{ color: 'red' }}> *</span></h6>{feedback}</Label>
                         <Input type="textarea" name="approverNote" id="approverNote" rows="6"
                             value={this.state.approverNote}
                             onChange={this.handleInputChange}

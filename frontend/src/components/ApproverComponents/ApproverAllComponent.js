@@ -17,8 +17,8 @@ class ApproverAllRequest extends Component {
 
     async fetchData() {
         let activeUser = await Cookies.getJSON("activeUser");
-        const allRequests = await axios.get("http://localhost:5000/all/approver/"+activeUser.mail);
-        return allRequests.data;    
+        const allRequests = await axios.get("http://localhost:5000/all/approver/" + activeUser.mail);
+        return allRequests.data;
     }
 
     render() {
@@ -28,7 +28,7 @@ class ApproverAllRequest extends Component {
                 <div className="container">
                     <div className="row">
                         <Breadcrumb>
-                            <BreadcrumbItem><Link to ="/approver"><i className="fa fa-user fa-sm"></i> Approver</Link></BreadcrumbItem>
+                            <BreadcrumbItem><Link to="/approver"><i className="fa fa-user fa-sm"></i> Approver</Link></BreadcrumbItem>
                             <BreadcrumbItem active>View All Request</BreadcrumbItem>
                         </Breadcrumb>
                         <div className="col-12">
@@ -36,7 +36,7 @@ class ApproverAllRequest extends Component {
                             <hr />
                         </div>
                     </div>
-                    <ViewRequest data = {this.fetchData()} role = "approver" all = {false}/>
+                    <ViewRequest data={this.fetchData()} role="approver" all={false} />
                 </div>
             </Fragment>
         );
