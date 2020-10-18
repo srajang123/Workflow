@@ -45,7 +45,7 @@ class RaiseRequest extends Component {
         this.setState({
             activeUserMail: cookieMail
         })
-        const productResponse = await axios.get("http://localhost:5000/products");
+        const productResponse = await axios.get(process.env.REACT_APP_LOGIN_API+'/products');
 
         if (productResponse.status === 200) {
 
@@ -53,7 +53,7 @@ class RaiseRequest extends Component {
                 products: productResponse.data
             })
 
-            const approverResponse = await axios.get("http://localhost:5000/approvers");
+            const approverResponse = await axios.get(process.env.REACT_APP_LOGIN_API+'/approvers');
 
             if (approverResponse.status === 200) {
                 this.setState({
@@ -149,7 +149,7 @@ class RaiseRequest extends Component {
                 this.setState({
                     loading: true
                 });
-                axios.post("http://localhost:5000/new", {
+                axios.post(process.env.REACT_APP_LOGIN_API+'/new', {
                     productId: this.state.productId,
                     approverId: this.state.approverId,
                     activeUserMail: this.state.activeUserMail,

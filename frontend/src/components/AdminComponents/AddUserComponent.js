@@ -74,7 +74,7 @@ class AddUser extends Component {
                 submit: "",
                 loading: true
             });
-            axios.post("http://localhost:5000/admin/create", {
+            axios.post(process.env.REACT_APP_LOGIN_API+'/admin/create', {
                 fname: this.state.firstName,
                 lname: this.state.lastName,
                 mail: this.state.mail,

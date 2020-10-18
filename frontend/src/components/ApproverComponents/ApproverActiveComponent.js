@@ -17,7 +17,7 @@ class ApproverActiveRequest extends Component {
 
     async fetchData() {
         let activeUser = await Cookies.getJSON("activeUser");
-        const activeRequests = await axios.get("http://localhost:5000/active/approver/" + activeUser.mail);
+        const activeRequests = await axios.get(process.env.REACT_APP_LOGIN_API+'/active/approver/' + activeUser.mail);
         return activeRequests.data;
     }
 
