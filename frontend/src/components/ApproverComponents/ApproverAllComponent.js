@@ -17,7 +17,7 @@ class ApproverAllRequest extends Component {
 
     async fetchData() {
         let activeUser = await Cookies.getJSON("activeUser");
-        const allRequests = await axios.get("http://localhost:5000/all/approver/" + activeUser.mail);
+        const allRequests = await axios.get(process.env.REACT_APP_APPROVER_ALL_API + activeUser.mail);
         return allRequests.data;
     }
 

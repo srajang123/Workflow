@@ -47,7 +47,7 @@ class SingleCardBody extends Component {
             this.setState({
                 loading : true
             })
-            axios.post('http://localhost:5000/approver/request/action', {
+            axios.post(process.env.REACT_APP_APPROVER_ACTION_API, {
                 status: "approved",
                 requestId: request.request_id,
                 approverNote: this.state.approverNote
@@ -78,7 +78,7 @@ class SingleCardBody extends Component {
             this.setState({
                 loading : true
             })
-            axios.post('http://localhost:5000/approver/request/action', {
+            axios.post(process.env.REACT_APP_APPROVER_ACTION_API, {
                 status: "rejected",
                 requestId: request.request_id,
                 approverNote: this.state.approverNote

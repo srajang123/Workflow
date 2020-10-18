@@ -46,7 +46,7 @@ class ViewUser extends Component {
     }
 
     async componentDidMount() {
-        axios.get("http://localhost:5000/admin/get")
+        axios.get(process.env.REACT_APP_ADMIN_GET_API)
             .then((response) => {
                 this.setState({
                     data: response.data.data
